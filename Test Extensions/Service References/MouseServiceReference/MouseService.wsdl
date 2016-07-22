@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="MouseService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Extensions.Models" />
+      <xsd:import schemaLocation="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd3" namespace="http://schemas.datacontract.org/2004/07/System.Windows.Forms" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMouseService_StartListening_InputMessage">
+    <wsdl:part name="parameters" element="tns:StartListening" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_StartListening_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StartListeningResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_StopListening_InputMessage">
+    <wsdl:part name="parameters" element="tns:StopListening" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_StopListening_OutputMessage">
+    <wsdl:part name="parameters" element="tns:StopListeningResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_GetMousePosition_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetMousePosition" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_GetMousePosition_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetMousePositionResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftDown_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftDown" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftDown_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftDownResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftUp" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftClick_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftClick" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseLeftClick_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseLeftClickResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightDown_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightDown" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightDown_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightDownResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightUp" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightClick_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightClick" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseRightClick_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseRightClickResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleUp" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleDown_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleDown" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleDown_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleDownResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleClick_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleClick" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseMiddleClick_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseMiddleClickResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseWheel_InputMessage">
+    <wsdl:part name="parameters" element="tns:MouseWheel" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_MouseWheel_OutputMessage">
+    <wsdl:part name="parameters" element="tns:MouseWheelResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_KeyUp_InputMessage">
+    <wsdl:part name="parameters" element="tns:KeyUp" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_KeyUp_OutputMessage">
+    <wsdl:part name="parameters" element="tns:KeyUpResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_GetPCName_InputMessage">
+    <wsdl:part name="parameters" element="tns:GetPCName" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_GetPCName_OutputMessage">
+    <wsdl:part name="parameters" element="tns:GetPCNameResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_PushWhoIAm_InputMessage">
+    <wsdl:part name="parameters" element="tns:PushWhoIAm" />
+  </wsdl:message>
+  <wsdl:message name="IMouseService_PushWhoIAm_OutputMessage">
+    <wsdl:part name="parameters" element="tns:PushWhoIAmResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMouseService">
+    <wsdl:operation name="StartListening">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/StartListening" message="tns:IMouseService_StartListening_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/StartListeningResponse" message="tns:IMouseService_StartListening_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="StopListening">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/StopListening" message="tns:IMouseService_StopListening_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/StopListeningResponse" message="tns:IMouseService_StopListening_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetMousePosition">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/GetMousePosition" message="tns:IMouseService_GetMousePosition_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/GetMousePositionResponse" message="tns:IMouseService_GetMousePosition_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftDown">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseLeftDown" message="tns:IMouseService_MouseLeftDown_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseLeftDownResponse" message="tns:IMouseService_MouseLeftDown_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseLeftUp" message="tns:IMouseService_MouseLeftUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseLeftUpResponse" message="tns:IMouseService_MouseLeftUp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftClick">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseLeftClick" message="tns:IMouseService_MouseLeftClick_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseLeftClickResponse" message="tns:IMouseService_MouseLeftClick_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightDown">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseRightDown" message="tns:IMouseService_MouseRightDown_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseRightDownResponse" message="tns:IMouseService_MouseRightDown_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseRightUp" message="tns:IMouseService_MouseRightUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseRightUpResponse" message="tns:IMouseService_MouseRightUp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightClick">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseRightClick" message="tns:IMouseService_MouseRightClick_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseRightClickResponse" message="tns:IMouseService_MouseRightClick_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleUp" message="tns:IMouseService_MouseMiddleUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleUpResponse" message="tns:IMouseService_MouseMiddleUp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleDown">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleDown" message="tns:IMouseService_MouseMiddleDown_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleDownResponse" message="tns:IMouseService_MouseMiddleDown_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleClick">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleClick" message="tns:IMouseService_MouseMiddleClick_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseMiddleClickResponse" message="tns:IMouseService_MouseMiddleClick_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="MouseWheel">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/MouseWheel" message="tns:IMouseService_MouseWheel_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/MouseWheelResponse" message="tns:IMouseService_MouseWheel_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="KeyUp">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/KeyUp" message="tns:IMouseService_KeyUp_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/KeyUpResponse" message="tns:IMouseService_KeyUp_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="GetPCName">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/GetPCName" message="tns:IMouseService_GetPCName_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/GetPCNameResponse" message="tns:IMouseService_GetPCName_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="PushWhoIAm">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMouseService/PushWhoIAm" message="tns:IMouseService_PushWhoIAm_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMouseService/PushWhoIAmResponse" message="tns:IMouseService_PushWhoIAm_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMouseService" type="tns:IMouseService">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="StartListening">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/StartListening" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="StopListening">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/StopListening" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetMousePosition">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/GetMousePosition" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftDown">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseLeftDown" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftUp">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseLeftUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseLeftClick">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseLeftClick" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightDown">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseRightDown" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightUp">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseRightUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseRightClick">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseRightClick" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleUp">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseMiddleUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleDown">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseMiddleDown" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseMiddleClick">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseMiddleClick" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="MouseWheel">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/MouseWheel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="KeyUp">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/KeyUp" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GetPCName">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/GetPCName" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PushWhoIAm">
+      <soap:operation soapAction="http://tempuri.org/IMouseService/PushWhoIAm" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MouseService">
+    <wsdl:port name="BasicHttpBinding_IMouseService" binding="tns:BasicHttpBinding_IMouseService">
+      <soap:address location="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

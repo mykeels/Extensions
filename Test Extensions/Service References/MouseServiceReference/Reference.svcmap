@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="92195e59-bf07-4f51-a647-7cbc2eb6bf0c" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="MouseService.wsdl" MetadataType="Wsdl" ID="cbe75dc3-0c02-4845-966c-2386b56a1355" SourceId="1" SourceUrl="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?wsdl" />
+    <MetadataFile FileName="item.xsd" MetadataType="Schema" ID="c3d42725-6d84-4b30-95e7-c5c1742cbb37" SourceId="1" SourceUrl="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd0" />
+    <MetadataFile FileName="item1.xsd" MetadataType="Schema" ID="c10648ae-cc24-4588-a6c8-706b918ee301" SourceId="1" SourceUrl="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd2" />
+    <MetadataFile FileName="item3.xsd" MetadataType="Schema" ID="b2402072-56bf-4b46-b84f-a92fa65f8b3c" SourceId="1" SourceUrl="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd3" />
+    <MetadataFile FileName="item2.xsd" MetadataType="Schema" ID="c0dcb297-76b4-41a1-822b-02643eb179f3" SourceId="1" SourceUrl="http://localhost:40404/Design_Time_Addresses/Test_Extensions/MouseService/?xsd=xsd1" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

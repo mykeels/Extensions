@@ -1,0 +1,16 @@
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Extensions.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Extensions.pdb
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Elmah.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Newtonsoft.Json.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGrid.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGrid.SmtpApi.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGridMail.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\System.Data.SqlServerCe.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Newtonsoft.Json.xml
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.csprojResolveAssemblyReference.cache
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.Properties.Resources.resources
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.csproj.GenerateResource.Cache
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.pdb
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Interop.SHDocVw.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.csproj.ResolveComReference.cache
