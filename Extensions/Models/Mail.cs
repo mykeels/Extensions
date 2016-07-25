@@ -73,9 +73,9 @@ namespace Extensions.Models
             return transportWeb.DeliverAsync(usrMail);
         }
 
-        public static Promise SendAsync(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null)
+        public static Promise<bool> SendAsync(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null)
         {
-            return new Promise(() =>
+            return new Promise<bool>(() =>
             {
                 return Send(EmailTo, Subject, Body, fromaddress, displayname, CCs);
             });

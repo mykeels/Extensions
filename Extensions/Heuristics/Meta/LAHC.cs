@@ -29,11 +29,11 @@ namespace Extensions.Heuristics.Meta
         {
             int v = I % Table.Count;
             bool isBetter = false;
-            if (Movement == Search.Direction.Optimization) isBetter = fitness < Table[v];
-            else isBetter = (fitness > Table[v]) && (fitness != defaultTableValue);
+            if (Movement == Search.Direction.Optimization) isBetter = (fitness < Table[v]);
+            else isBetter = (fitness > Table[v]);
             if (isBetter)
             {
-                Table[v] = (Table[v] + fitness) / 2;
+                Table[v] = fitness;
                 I++;
             }
             return isBetter;

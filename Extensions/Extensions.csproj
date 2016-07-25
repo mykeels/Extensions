@@ -75,10 +75,12 @@
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Encryption.cs" />
     <Compile Include="Heuristics\Meta\Hive.cs" />
+    <Compile Include="Heuristics\Meta\LAHC.cs" />
+    <Compile Include="Heuristics\Meta\Search.cs" />
     <Compile Include="Heuristics\Meta\Selection.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="ListExtensions.cs" />
-    <Compile Include="MobileWebBrowser.cs">
+    <Compile Include="Forms\MobileWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\Cache.cs" />
@@ -89,6 +91,7 @@
     <Compile Include="Models\Mail.cs" />
     <Compile Include="Models\Mouse.cs" />
     <Compile Include="Models\Response.cs" />
+    <Compile Include="Models\Screen.cs" />
     <Compile Include="Models\Site.cs" />
     <Compile Include="NumberExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />

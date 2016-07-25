@@ -44,7 +44,7 @@ namespace Test_Extensions.MouseCtrl
         }
         public static void testMouseCtrl()
         {
-            Extensions.Promise.Create(() =>
+            Promise<bool>.Create(() =>
             {
                 if (form1 == null || form1.IsDisposed || !form1.Enabled)
                 {

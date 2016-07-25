@@ -34,10 +34,10 @@ namespace Extensions
             return b;
         }
 
-        public static Promise GetAsync(string url)
+        public static Promise<string> GetAsync(string url)
         {
             //return Promise.Create(() => Get(url));
-            return new Promise(() => Get(url));
+            return new Promise<string>(() => Get(url));
         }
 
         public static Bitmap GetImage(string url)
@@ -56,9 +56,9 @@ namespace Extensions
             }
         }
 
-        public static Promise GetImageAsync(string url)
+        public static Promise<Bitmap> GetImageAsync(string url)
         {
-            return new Promise(() => GetImage(url));
+            return new Promise<Bitmap>(() => GetImage(url));
         }
 
         public static string Post(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null)
@@ -77,9 +77,9 @@ namespace Extensions
             return w.UploadString(url, value);
         }
 
-        public static Promise PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null)
+        public static Promise<string> PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null)
         {
-            return new Promise(() => Post(url, value, contenttype, headers));
+            return new Promise<string>(() => Post(url, value, contenttype, headers));
         }
 
         private static void browserWait(WebBrowser browser)
@@ -103,9 +103,9 @@ namespace Extensions
         /// <param name="browserwidth"></param>
         /// <param name="browserheight"></param>
         /// <returns>A Promise to return a WebBrowser object</returns>
-        public static Promise Execute(string path, BrowserType type = BrowserType.WebBrowser, int browserwidth = 1024, int browserheight = 768)
+        public static Promise<WebBrowser> Execute(string path, BrowserType type = BrowserType.WebBrowser, int browserwidth = 1024, int browserheight = 768)
         {
-            return Promise.Create(() =>
+            return Promise<WebBrowser>.Create(() =>
             {
                 WebBrowser browser;
                 if (type == BrowserType.MobileWebBrowser) browser = new MobileWebBrowser();

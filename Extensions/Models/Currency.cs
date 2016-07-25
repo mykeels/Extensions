@@ -210,9 +210,9 @@ namespace Extensions.Models
             }
         }
 
-        public static Promise RefreshAsync()
+        public static Promise<bool> RefreshAsync()
         {
-            return Promise.Create(() =>
+            return Promise<bool>.Create(() =>
             {
                 Refresh();
                 return true;

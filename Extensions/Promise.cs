@@ -4,28 +4,27 @@ using System.Threading;
 
 namespace Extensions
 {
-    public class Promise
+    public class Promise<T>
     {
-        public Promise.State state { get; set; }
+        public Promise<T>.State state { get; set; }
         public Thread current { get; set; }
-        private Action<dynamic> success { get; set; }
-
-        private List<Action<dynamic>> then = new List<Action<dynamic>>();
+        private Action<T> success { get; set; }
+        private List<Action<T>> then = new List<Action<T>>();
         private Action done { get; set; }
         private Action<Exception> error { get; set; }
-        private Func<dynamic> work { get; set; }
-        
+        private Func<T> work { get; set; }
         private int timeout { get; set; }
-        public Promise(Func<dynamic> func)
+
+        public Promise(Func<T> func)
         {
             this.state = State.Pending;
             this.work = func;
             this.Execute();
         }
 
-        public static Promise Create(Func<dynamic> func)
+        public static Promise<T> Create(Func<T> func)
         {
-            return new Promise(func);
+            return new Promise<T>(func);
         }
 
         private void Execute()
@@ -35,7 +34,8 @@ namespace Extensions
                 try
                 {
                     dynamic result = work();
-                    if (success != null) {
+                    if (success != null)
+                    {
                         success(result);
                     }
                     if (then.Count > 0)
@@ -63,37 +63,37 @@ namespace Extensions
                     if (error != null) error(ex);
                     Console.WriteLine(ex);
                 }
-                
+
             });
             current.SetApartmentState(ApartmentState.STA);
             current.Start();
         }
 
-        public Promise Success(Action<dynamic> act)
+        public Promise<T> Success(Action<T> act)
         {
             this.success = act;
             return this;
         }
 
-        public Promise Then(Action<dynamic> act)
+        public Promise<T> Then(Action<T> act)
         {
             this.then.Add(act);
             return this;
         }
 
-        public Promise Done(Action act)
+        public Promise<T> Done(Action act)
         {
             this.done = act;
             return this;
         }
 
-        public Promise Error(Action<Exception> act)
+        public Promise<T> Error(Action<Exception> act)
         {
             this.error = act;
             return this;
         }
 
-        public Promise SetTimeOut(int t)
+        public Promise<T> SetTimeOut(int t)
         {
             this.timeout = t;
             if (timeout > 0) this.ExecuteTimeOut();
