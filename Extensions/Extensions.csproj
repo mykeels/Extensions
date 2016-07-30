@@ -79,12 +79,15 @@
     <Compile Include="Heuristics\Meta\Search.cs" />
     <Compile Include="Heuristics\Meta\Selection.cs" />
     <Compile Include="HtmlExtensions.cs" />
+    <Compile Include="IO\Directory.cs" />
     <Compile Include="ListExtensions.cs" />
     <Compile Include="Forms\MobileWebBrowser.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Models\Cache.cs" />
+    <Compile Include="Models\Currency-Manager.cs" />
     <Compile Include="Models\Currency.cs" />
+    <Compile Include="IO\File.cs" />
     <Compile Include="Models\IPUser.cs" />
     <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\Location.cs" />

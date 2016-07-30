@@ -154,18 +154,20 @@ namespace Extensions.Models
             public string CountryName { get; set; }
             public static List<City> Cities { get; set; }
 
-            public static List<City> GetCities()
+            public static List<City> GetCities(string countrycode = null)
             {
                 if (Cities == null)
                 {
                     byte[] cities_bytes = Properties.Resources.cities;
                     string cities_text = Encoding.UTF8.GetString(cities_bytes);
                     Cities = Newtonsoft.Json.JsonConvert.DeserializeObject<List<City>>(cities_text);
-                    return Cities;
+                    if (String.IsNullOrEmpty(countrycode)) return Cities;
+                    else return (from pp in Cities where pp.CountryCode.Equals(countrycode) select pp).ToList();
                 }
                 else
                 {
-                    return Cities;
+                    if (String.IsNullOrEmpty(countrycode)) return Cities;
+                    else return (from pp in Cities where pp.CountryCode.Equals(countrycode) select pp).ToList();
                 }
             }
 

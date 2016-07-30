@@ -51,7 +51,7 @@ namespace Extensions.Models
         public static string MapPath(string path = "")
         {
             if (!path.StartsWith("~/")) return path;
-            if (Context() == null) return path.Replace("~", "");
+            if (Context() == null) return path.Replace("~", System.Environment.CurrentDirectory);
             return Context().Server.MapPath(path);
         }
 
@@ -91,9 +91,8 @@ namespace Extensions.Models
 
         public static Type GetSiteType()
         {
-            string site_culture = "";
+            string site_culture = Site.AppSettings("OverrideCulture").ToLower();
             var request = System.Web.HttpContext.Current.Request;
-            if (request.Url.ToString().ToLower().Contains("localhost")) site_culture = Site.AppSettings("OverrideCulture").ToLower();
             if (request.Url.ToString().ToLower().Contains("/en-uk/") || site_culture.Equals("en-uk")) return Type.UnitedKingdom;
             else if (request.Url.ToString().ToLower().Contains("/en-us/") || site_culture.Equals("en-us")) return Type.USA;
             else if (request.Url.ToString().ToLower().Contains("/en-ae/") || site_culture.Equals("en-ae")) return Type.UAE;

@@ -14,12 +14,19 @@ using System.ServiceModel;
 
 namespace Test_Extensions
 {
-    class Program
+    public class Program
     {
-        
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Program p = new Program();
+            Console.WriteLine("6bOwz88GMBqaWuCPXVE6sBb9KRo1+2Z6T/FEkeGLsLw=".Replace(" ", "+").Decrypt("DestsAfrica"));
+            Currency.Refresh();
+            foreach (var code in Currency.Currencies.Select((c) => c.Code).ToList())
+            {
+                Currency.Manager manager = new Currency.Manager(code);
+                Console.WriteLine("Base Currency: " + code);
+                Console.WriteLine(manager.Currencies.ToJson(true));
+            }
 
             ServiceHost host = new ServiceHost(typeof(MouseService));
             MouseService.serviceUrl = host.BaseAddresses[0].ToString();
