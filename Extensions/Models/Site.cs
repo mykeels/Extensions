@@ -19,6 +19,9 @@ namespace Extensions.Models
                                                    "windows ce","blackberry",
                                                    "opera mini","mobile","palm",
                                                    "portable","opera mobi" };
+        public static string[] TabletDevices = new string[] {"ipad","playbook",
+                                                   "surface","silk",
+                                                   "kindle" };
 
         public static string lefturl = GetLeftUrl();
         public static string GetLeftUrl()
@@ -32,14 +35,14 @@ namespace Extensions.Models
                     left = left.Substring(0, left.Length - 1);
                 }
                 lefturl = left.ToLower() + "/";
-                return lefturl; 
+                return lefturl;
             }
             catch (Exception ex)
             {
                 return "/";
             }
         }
-        
+
         public static string ResolveURL(string path)
         {
             path.TrimStart('/');
@@ -72,7 +75,7 @@ namespace Extensions.Models
             ErrorSignal.FromCurrentContext().Raise(ex);
         }
 
-        public static bool IsMobile()
+        public static bool IsMobile(bool checkTablet = true)
         {
             if (HttpContext.Current != null && HttpContext.Current.Request != null && HttpContext.Current.Request.ServerVariables["HTTP_USER_AGENT"] != null)
             {
@@ -85,6 +88,17 @@ namespace Extensions.Models
                 string useragent = HttpContext.Current.Request.UserAgent.ToString();
                 if (MobileDevices.Any(x => useragent.Contains(x))) return true;
                 else return Context().Request.Browser.IsMobileDevice;
+            }
+            return false;
+        }
+
+        public static bool IsTablet()
+        {
+            if (HttpContext.Current != null && HttpContext.Current.Request != null)
+            {
+                string useragent = HttpContext.Current.Request.UserAgent.ToString();
+                if (TabletDevices.Any(x => useragent.Contains(x))) return true;
+                else return Context().Request.Browser.ScreenPixelsWidth > 768;
             }
             return false;
         }

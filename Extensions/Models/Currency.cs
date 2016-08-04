@@ -39,6 +39,20 @@ namespace Extensions.Models
             Name = name;
         }
 
+        public static string GetSiteCurrencyCode()
+        {
+            Site.Type type = Site.GetSiteType();
+            switch (type)
+            {
+                case Site.Type.Ghana: return "GHS";
+                case Site.Type.UAE: return "AED";
+                case Site.Type.UnitedKingdom: return "GBP";
+                case Site.Type.USA: return "USD";
+                case Site.Type.Nigeria: return "NGN";
+                default: return "USD";
+            }
+        }
+
         public static string GetIcon(string code)
         {
             for (int i = 0; i < Currencies.Count - 1; i++)
@@ -91,20 +105,6 @@ namespace Extensions.Models
                 }
             }
             return null;
-        }
-
-        public static string GetSiteCurrencyCode()
-        {
-            Site.Type type = Site.GetSiteType();
-            switch (type)
-            {
-                case Site.Type.Ghana: return "GHS";
-                case Site.Type.UAE: return "AED";
-                case Site.Type.UnitedKingdom: return "GBP";
-                case Site.Type.USA: return "USD";
-                case Site.Type.Nigeria: return "NGN";
-                default: return "USD";
-            }
         }
 
         public static Currency GetCurrencyByIcon(string icon)

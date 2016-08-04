@@ -20,7 +20,7 @@ namespace Test_Extensions
         {
             Program p = new Program();
             Console.WriteLine("6bOwz88GMBqaWuCPXVE6sBb9KRo1+2Z6T/FEkeGLsLw=".Replace(" ", "+").Decrypt("DestsAfrica"));
-            Currency.Refresh();
+            //Currency.Refresh();
             foreach (var code in Currency.Currencies.Select((c) => c.Code).ToList())
             {
                 Currency.Manager manager = new Currency.Manager(code);
