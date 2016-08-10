@@ -215,6 +215,14 @@ namespace Extensions
             return ret;
         }
 
+        public static IEnumerable<T> Backwards<T>(this IEnumerable<T> myarray)
+        {
+            for (int i = myarray.Count() - 1; i >= 0; i--)
+            {
+                yield return myarray.ElementAt(i);
+            }
+        }
+
         public static List<T> Where<T>(this List<T> myarray, Func<T, bool> myfunc)
         {
             List<T> ret = new List<T>();

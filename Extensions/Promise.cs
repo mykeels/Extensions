@@ -51,7 +51,11 @@ namespace Extensions
                 {
                     if (state.Equals(State.Pending)) state = State.Rejected;
                     if (error != null) error(ex);
-                    Console.WriteLine(ex);
+                    else
+                    {
+                        Console.WriteLine(ex);
+                        throw ex;
+                    }
                 }
                 try
                 {
@@ -61,7 +65,11 @@ namespace Extensions
                 {
                     if (state.Equals(State.Pending)) state = State.Rejected;
                     if (error != null) error(ex);
-                    Console.WriteLine(ex);
+                    else
+                    {
+                        Console.WriteLine(ex);
+                        throw ex;
+                    }
                 }
 
             });

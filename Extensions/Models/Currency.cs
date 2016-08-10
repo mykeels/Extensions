@@ -152,7 +152,9 @@ namespace Extensions.Models
         public static decimal ConvertToBase(decimal amount, string code)
         {
             if (code == Base_Code) return amount;
-            return Math.Round(amount / GetRate(code), 2);
+            decimal rate = GetRate(code);
+            if (rate == 0) return Decimal.MaxValue;
+            return Math.Round(amount / rate, 2);
         }
 
         public static decimal ConvertBtwCurrencies(decimal amount1, string code1, string code2)

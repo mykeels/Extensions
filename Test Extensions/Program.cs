@@ -19,7 +19,7 @@ namespace Test_Extensions
         public static void Main(string[] args)
         {
             Program p = new Program();
-            Console.WriteLine("6bOwz88GMBqaWuCPXVE6sBb9KRo1+2Z6T/FEkeGLsLw=".Replace(" ", "+").Decrypt("DestsAfrica"));
+            Console.WriteLine("iWueiQ+nLTJ8h6/BBgPUzg==".Replace(" ", "+").Decrypt("DestsAfrica"));
             //Currency.Refresh();
             foreach (var code in Currency.Currencies.Select((c) => c.Code).ToList())
             {
