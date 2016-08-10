@@ -126,7 +126,7 @@ namespace Extensions
             Random rand = new Random(DateTime.Now.Millisecond);
             while (indices.Count < l)
             {
-                int index = Convert.ToInt32(rand.NextDouble() * l);
+                int index = Convert.ToInt32(Math.Floor(rand.NextDouble() * l));
                 if (!indices.Contains(index))
                 {
                     indices.Add(index);
