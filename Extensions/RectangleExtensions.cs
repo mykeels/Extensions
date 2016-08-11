@@ -10,7 +10,6 @@ namespace Extensions
 {
     public static class RectangleExtensions
     {
-        
         public static bool EqualsTo(this Rectangle rect1, Rectangle rect2)
         {
             if (rect1.X.Equals(rect2.X) & rect1.Y.Equals(rect2.Y) & rect1.Width.Equals(rect2.Width) & rect1.Height.Equals(rect2.Height))
