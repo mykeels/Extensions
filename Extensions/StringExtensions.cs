@@ -348,8 +348,5 @@ namespace Extensions
             public int StartIndex { get; set; }
             public int EndIndex { get; set; }
         }
-
-        
-
     }
 }

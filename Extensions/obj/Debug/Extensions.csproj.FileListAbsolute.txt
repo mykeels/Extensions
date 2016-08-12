@@ -1,7 +1,5 @@
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Extensions.dll
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Extensions.pdb
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Elmah.dll
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Newtonsoft.Json.dll
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGrid.dll
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGrid.SmtpApi.dll
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\SendGridMail.dll
