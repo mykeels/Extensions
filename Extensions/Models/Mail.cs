@@ -75,6 +75,7 @@ namespace Extensions.Models
 
         public static Promise<bool> SendAsync(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null)
         {
+            Site.GetLeftUrl(); //Just in case it is neccessary to use HttpContext.Current.Server.MapPath
             return new Promise<bool>(() =>
             {
                 return Send(EmailTo, Subject, Body, fromaddress, displayname, CCs);

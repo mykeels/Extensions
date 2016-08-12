@@ -10,11 +10,12 @@ namespace Misc
 {
     public class Program
     {
-        public static void Main(string[] args)
+        
+        static void Main(String[] args)
         {
-            List<string> texts = new List<string>() { "a", "b", "c" };
-            Console.WriteLine(texts.AsEnumerable().Backwards().ToList().ToJson());
+
             Console.Read();
         }
+        
     }
 }
