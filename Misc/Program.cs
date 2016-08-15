@@ -13,7 +13,7 @@ namespace Misc
         
         static void Main(String[] args)
         {
-
+            Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
             Console.Read();
         }
         
