@@ -8,14 +8,40 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Extensions
 {
     public class Api
     {
-        public static string Get(string url)
+        private static bool ValidateRemoteCertificate(object sender, X509Certificate cert, X509Chain chain, SslPolicyErrors error)
+        {
+            // If the certificate is a valid, signed certificate, return true.
+            if (error == SslPolicyErrors.None)
+            {
+                return true;
+            }
+
+            Console.WriteLine("X509Certificate [{0}] Policy Error: '{1}'",
+                cert.Subject,
+                error.ToString());
+
+            return false;
+        }
+
+        public static string Get(string url, Dictionary<string, string> headers = null)
         {
             WebClient client = new WebClient();
+            if ((headers != null))
+            {
+                foreach (var h_loopVariable in headers)
+                {
+                    var h = h_loopVariable;
+                    client.Headers.Add(h.Key, h.Value);
+                }
+            }
             client.BaseAddress = url;
             Stream stream = new MemoryStream();
             stream = client.OpenRead(url);
@@ -34,10 +60,24 @@ namespace Extensions
             return b;
         }
 
-        public static Promise<string> GetAsync(string url)
+        public static T Get<T>(string url, Dictionary<string, string> headers = null)
         {
-            //return Promise.Create(() => Get(url));
-            return new Promise<string>(() => Get(url));
+            string response = Get(url, headers);
+            T ret = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(response);
+            return ret;
+        }
+
+        public static Promise<string> GetAsync(string url, Dictionary<string, string> headers = null)
+        {
+            return new Promise<string>(() => Get(url, headers));
+        }
+
+        public static Promise<T> GetAsync<T>(string url, Dictionary<string, string> headers = null)
+        {
+            return Promise<T>.Create(() =>
+            {
+                return Get<T>(url, headers);
+            });
         }
 
         public static Bitmap GetImage(string url)
@@ -61,8 +101,13 @@ namespace Extensions
             return new Promise<Bitmap>(() => GetImage(url));
         }
 
-        public static string Post(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null)
+        public static string Post(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
         {
+            if (useSsl)
+            {
+                ServicePointManager.ServerCertificateValidationCallback += ValidateRemoteCertificate;
+                //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls;
+            }
             WebClient w = new WebClient();
             if ((headers != null))
             {
@@ -77,9 +122,30 @@ namespace Extensions
             return w.UploadString(url, value);
         }
 
-        public static Promise<string> PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null)
+        public static T Post<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
         {
-            return new Promise<string>(() => Post(url, value, contenttype, headers));
+            string response = Post(url, value, contenttype, headers);
+            T ret = default(T);
+            if (contenttype == "text/xml")
+            {
+                ret = System.Xml.Linq.XElement.Parse(response).ToObject<T>();
+            }
+            else
+            {
+                ret = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(response);
+            }
+            
+            return ret;
+        }
+
+        public static Promise<string> PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        {
+            return new Promise<string>(() => Post(url, value, contenttype, headers, useSsl));
+        }
+
+        public static Promise<T> PostAsync<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        {
+            return new Promise<T>(() => Post<T>(url, value, contenttype, headers, useSsl));
         }
 
         private static void browserWait(WebBrowser browser)

@@ -77,6 +77,12 @@ namespace Extensions
             current.Start();
         }
 
+        public Promise<T> Wait()
+        {
+            this.current.Join();
+            return this;
+        }
+
         public Promise<T> Success(Action<T> act)
         {
             this.success = act;
