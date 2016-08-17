@@ -31,7 +31,7 @@ namespace Extensions
             return false;
         }
 
-        public static string Get(string url, Dictionary<string, string> headers = null)
+        public static string Get(string url, Dictionary<string, string> headers = null, NetworkCredential credentials = null)
         {
             WebClient client = new WebClient();
             if ((headers != null))
@@ -41,6 +41,13 @@ namespace Extensions
                     var h = h_loopVariable;
                     client.Headers.Add(h.Key, h.Value);
                 }
+            }
+            if (credentials != null)
+            {
+                client.Credentials = credentials;
+                client.Headers.Add("Authorization", "Basic " + 
+                    Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(credentials.UserName + ":" + 
+                    credentials.Password)));
             }
             client.BaseAddress = url;
             Stream stream = new MemoryStream();
@@ -60,23 +67,23 @@ namespace Extensions
             return b;
         }
 
-        public static T Get<T>(string url, Dictionary<string, string> headers = null)
+        public static T Get<T>(string url, Dictionary<string, string> headers = null, NetworkCredential credentials = null)
         {
-            string response = Get(url, headers);
+            string response = Get(url, headers, credentials);
             T ret = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(response);
             return ret;
         }
 
-        public static Promise<string> GetAsync(string url, Dictionary<string, string> headers = null)
+        public static Promise<string> GetAsync(string url, Dictionary<string, string> headers = null, NetworkCredential credentials = null)
         {
-            return new Promise<string>(() => Get(url, headers));
+            return new Promise<string>(() => Get(url, headers, credentials));
         }
 
-        public static Promise<T> GetAsync<T>(string url, Dictionary<string, string> headers = null)
+        public static Promise<T> GetAsync<T>(string url, Dictionary<string, string> headers = null, NetworkCredential credentials = null)
         {
             return Promise<T>.Create(() =>
             {
-                return Get<T>(url, headers);
+                return Get<T>(url, headers, credentials);
             });
         }
 
@@ -101,7 +108,8 @@ namespace Extensions
             return new Promise<Bitmap>(() => GetImage(url));
         }
 
-        public static string Post(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        public static string Post(string url, string value, string contenttype = "text/xml", 
+            Dictionary<string, string> headers = null, bool useSsl = false, NetworkCredential credentials = null)
         {
             if (useSsl)
             {
@@ -117,14 +125,21 @@ namespace Extensions
                     w.Headers.Add(h.Key, h.Value);
                 }
             }
+            if (credentials != null)
+            {
+                w.Credentials = credentials;
+                w.Headers.Add("Authorization", "Basic " +
+                    Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(credentials.UserName + ":" +
+                    credentials.Password)));
+            }
             w.Headers.Add("Content-Type", contenttype);
             w.Headers.Add("Accept", "text/plain, " + contenttype);
             return w.UploadString(url, value);
         }
 
-        public static T Post<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        public static T Post<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false, NetworkCredential credentials = null)
         {
-            string response = Post(url, value, contenttype, headers);
+            string response = Post(url, value, contenttype, headers, useSsl, credentials);
             T ret = default(T);
             if (contenttype == "text/xml")
             {
@@ -138,14 +153,14 @@ namespace Extensions
             return ret;
         }
 
-        public static Promise<string> PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        public static Promise<string> PostAsync(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false, NetworkCredential credentials = null)
         {
-            return new Promise<string>(() => Post(url, value, contenttype, headers, useSsl));
+            return new Promise<string>(() => Post(url, value, contenttype, headers, useSsl, credentials));
         }
 
-        public static Promise<T> PostAsync<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false)
+        public static Promise<T> PostAsync<T>(string url, string value, string contenttype = "text/xml", Dictionary<string, string> headers = null, bool useSsl = false, NetworkCredential credentials = null)
         {
-            return new Promise<T>(() => Post<T>(url, value, contenttype, headers, useSsl));
+            return new Promise<T>(() => Post<T>(url, value, contenttype, headers, useSsl, credentials));
         }
 
         private static void browserWait(WebBrowser browser)

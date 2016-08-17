@@ -7,7 +7,7 @@ using Extensions;
 
 namespace Extensions.Heuristics.Meta
 {
-    public class Hive<FoodType>
+    public partial class Hive<FoodType>
     {
         //Note that FoodType and FoodSource should be of Same Class/Type
         private static FoodType _bestFood { get; set; } // the best food source
@@ -17,7 +17,7 @@ namespace Extensions.Heuristics.Meta
         private static Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> _selectionMethod { get; set; }
         public static Search.Direction Movement { get; set; }
 
-        public static List<BeeLahc<FoodType>> Bees = new List<BeeLahc<FoodType>>();
+        public static List<Bee<FoodType>> Bees = new List<Bee<FoodType>>();
 
         public static void Create(Func<FoodType, FoodType> mutateFunc, Func<FoodType, double> fitnessFunc, Func<FoodType, FoodType> cFunc,
            Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> selectFunc, int noOfBees = 20, 
@@ -31,16 +31,16 @@ namespace Extensions.Heuristics.Meta
             {
                 for (int index = 1; index <= noOfBees; index++)
                 {
-                    BeeLahc<FoodType>.TypeClass _type = default(BeeLahc<FoodType>.TypeClass);
+                    Bee<FoodType>.TypeClass _type = default(Bee<FoodType>.TypeClass);
                     if (index < (noOfBees / 2))
                     {
-                        _type = Hive<FoodType>.BeeLahc<FoodType>.TypeClass.Employed;
+                        _type = Hive<FoodType>.Bee<FoodType>.TypeClass.Employed;
                     }
                     else
                     {
-                        _type = Hive<FoodType>.BeeLahc<FoodType>.TypeClass.Onlooker;
+                        _type = Hive<FoodType>.Bee<FoodType>.TypeClass.Onlooker;
                     }
-                    Bees.Add(new BeeLahc<FoodType>(mutateFunc, fitnessFunc, _type, index - 1, _failureLimit));
+                    Bees.Add(new Bee<FoodType>(mutateFunc, fitnessFunc, _type, index - 1, _failureLimit));
                 }
             }
             _acceptProbability = _acceptanceProbability;
@@ -63,9 +63,9 @@ namespace Extensions.Heuristics.Meta
             {
                 for (int index = 0; index <= Bees.Count - 1; index++)
                 {
-                    BeeLahc<FoodType> _bee = Hive<FoodType>.Bees[index];
+                    Bee<FoodType> _bee = Hive<FoodType>.Bees[index];
                     _bee.ID = index;
-                    if (_bee.Type == Hive<FoodType>.BeeLahc<FoodType>.TypeClass.Employed)
+                    if (_bee.Type == Hive<FoodType>.Bee<FoodType>.TypeClass.Employed)
                     {
                         _bee.Food = initFunc();
                         _bee.GetFitness();
@@ -74,20 +74,20 @@ namespace Extensions.Heuristics.Meta
             }
         }
 
-        public static BeeLahc<FoodType> SingleIteration(Func<FoodType> initFunc, bool writeToConsole = false)
+        public static Bee<FoodType> SingleIteration(Func<FoodType> initFunc, bool writeToConsole = false)
         {
             //Start Algorithm
-            BeeLahc<FoodType> ret = null;
-            IEnumerable<BeeLahc<FoodType>> _employedBees = Bees.Where((BeeLahc<FoodType> _bee) => { return _bee.Type.Equals(BeeLahc<FoodType>.TypeClass.Employed) & _bee.Food != null; }).ToList();
+            Bee<FoodType> ret = null;
+            IEnumerable<Bee<FoodType>> _employedBees = Bees.Where((Bee<FoodType> _bee) => { return _bee.Type.Equals(Bee<FoodType>.TypeClass.Employed) & _bee.Food != null; }).ToList();
             int _employedCount = _employedBees.Count();
             for (int i = 0; i <= (_employedCount - 1); i++)
             {
-                BeeLahc<FoodType> _eBee = _employedBees.ElementAt(i);
+                Bee<FoodType> _eBee = _employedBees.ElementAt(i);
                 _eBee.Mutate();
                 Bees[_eBee.ID] = _eBee;
             }
             Hive<FoodType>.ShareInformation();
-            IEnumerable<double> _fitnesses = Bees.Select((BeeLahc<FoodType> _bee) => { return _bee.Fitness; });
+            IEnumerable<double> _fitnesses = Bees.Select((Bee<FoodType> _bee) => { return _bee.Fitness; });
             double _bestFit = 0;
             //collate bestFitness and bestFood
             if (Movement == Search.Direction.Divergence)
@@ -119,10 +119,10 @@ namespace Extensions.Heuristics.Meta
             return ret;
         }
 
-        public static BeeLahc<FoodType> FullIteration(Func<FoodType> initFunc, int noOfIterations = 500, bool writeToConsole = false)
+        public static Bee<FoodType> FullIteration(Func<FoodType> initFunc, int noOfIterations = 500, bool writeToConsole = false)
         {
             Start(initFunc);
-            BeeLahc<FoodType> ret = null;
+            Bee<FoodType> ret = null;
             for (int count = 1; count <= noOfIterations; count++)
             {
                 ret = SingleIteration(initFunc, writeToConsole);
@@ -133,9 +133,9 @@ namespace Extensions.Heuristics.Meta
 
         public static void ShareInformation()
         {
-            IEnumerable<BeeLahc<FoodType>> _employedBees = Bees.Where((BeeLahc<FoodType> _bee) => { return _bee.Type.Equals(BeeLahc<FoodType>.TypeClass.Employed) & _bee.Food != null; });
-            IEnumerable<BeeLahc<FoodType>> _onlookerBees = Bees.Where((BeeLahc<FoodType> _bee) => { return _bee.Type.Equals(BeeLahc<FoodType>.TypeClass.Onlooker); });
-            foreach (BeeLahc<FoodType> _bee in _onlookerBees)
+            IEnumerable<Bee<FoodType>> _employedBees = Bees.Where((Bee<FoodType> _bee) => { return _bee.Type.Equals(Bee<FoodType>.TypeClass.Employed) & _bee.Food != null; });
+            IEnumerable<Bee<FoodType>> _onlookerBees = Bees.Where((Bee<FoodType> _bee) => { return _bee.Type.Equals(Bee<FoodType>.TypeClass.Onlooker); });
+            foreach (Bee<FoodType> _bee in _onlookerBees)
             {
                 FoodType _food = SelectFood();
                 if (_food != null && Number.Rnd() < _acceptProbability)
@@ -151,8 +151,8 @@ namespace Extensions.Heuristics.Meta
 
         public static FoodType SelectFood()
         {
-            IEnumerable<BeeLahc<FoodType>> _employedBees = Bees.Where((BeeLahc<FoodType> _bee) => { return _bee.Type.Equals(BeeLahc<FoodType>.TypeClass.Employed) & _bee.Food != null; });
-            List<double> fitnesses = _employedBees.Select(_bee => { return _bee.Fitness; }).ToList();
+            IEnumerable<Bee<FoodType>> _employedBees = Bees.Where((Bee<FoodType> _bee) => { return _bee.Type.Equals(Bee<FoodType>.TypeClass.Employed) & _bee.Food != null; });
+            List<double> fitnesses = _employedBees.Select(_bee => { return _bee.GetFitness(); }).ToList();
             double sum = fitnesses.Sum();
             if (fitnesses.IsEmpty()) return default(FoodType);
             return _selectionMethod(_employedBees.Select((_bee) => _bee.Food), fitnesses, 1).First();
@@ -170,190 +170,5 @@ namespace Extensions.Heuristics.Meta
                 }
             }*/
         }
-
-        public class Bee<FoodSource>
-        {
-            public int ID { get; set; }
-            public TypeClass Type { get; set; }
-            public FoodSource Food { get; set; }
-            public double Fitness { get; set; }
-            public double defaultFitness { get; set; }
-            protected virtual int _timeSinceLastImprovement { get; set; }
-            protected virtual int _nonImprovementLimit { get; set; }
-            protected virtual Func<FoodSource, FoodSource> _mutationFunc { get; set; }
-            protected virtual Func<FoodSource, double> _fitnessFunc { get; set; }
-
-            public Bee()
-            {
-                this.Fitness = double.MaxValue;
-                this.defaultFitness = double.MaxValue;
-                this.Type = TypeClass.Scout;
-            }
-
-            public Bee(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, TypeClass _type, int ID = 0, int _failureLimit = 20)
-            {
-                if ((Hive<FoodSource>.Movement == Search.Direction.Divergence))
-                {
-                    this.Fitness = double.MinValue;
-                    defaultFitness = double.MinValue;
-                }
-                else if (Hive<FoodSource>.Movement == Search.Direction.Optimization)
-                {
-                    this.Fitness = double.MaxValue;
-                    defaultFitness = double.MaxValue;
-                }
-                if (mFunc == null | fFunc == null)
-                {
-                    throw new Exception(string.Format("Ogbeni, na Bee #{0} be this. How i wan take mutate na?", ID));
-                }
-                this._nonImprovementLimit = _failureLimit;
-                this._mutationFunc = mFunc;
-                this._fitnessFunc = fFunc;
-                this.Type = _type;
-            }
-
-            public void ChangeToEmployed(FoodSource _food, Func<FoodSource, FoodSource> mFunc = null, Func<FoodSource, double> fFunc = null)
-            {
-                this._timeSinceLastImprovement = 0;
-                this.Type = Hive<FoodType>.Bee<FoodSource>.TypeClass.Employed;
-                this.Food = _food;
-                this.GetFitness();
-                if (mFunc != null)
-                {
-                    this._mutationFunc = mFunc;
-                }
-                if (fFunc != null)
-                {
-                    this._fitnessFunc = fFunc;
-                }
-            }
-
-            public void ChangeToOnlooker()
-            {
-                this.Type = Hive<FoodType>.Bee<FoodSource>.TypeClass.Onlooker;
-                this.Food = default(FoodSource);
-                this.Fitness = defaultFitness;
-                this._timeSinceLastImprovement = 0;
-            }
-            
-            public void ChangeToScout()
-            {
-                this.Type = Hive<FoodType>.Bee<FoodSource>.TypeClass.Scout;
-                this.Food = default(FoodSource);
-                this.Fitness = defaultFitness;
-            }
-
-            #region "EmployedBees"
-            public virtual FoodSource Mutate()
-            {
-                FoodSource ret = _mutationFunc(this.Food);
-                double _fitness = Bee<FoodSource>.GetFitness(ret, _fitnessFunc);
-                if (this.Fitness.Equals(defaultFitness) | _fitness < this.Fitness)
-                {
-                    this.Fitness = _fitness;
-                    this.Food = ret;
-                    this._timeSinceLastImprovement = 0;
-                }
-                else
-                {
-                    this._timeSinceLastImprovement += 1;
-                    //Solution has not improved
-                    if (this._timeSinceLastImprovement >= this._nonImprovementLimit)
-                    {
-                        this.ChangeToOnlooker();
-                    }
-                }
-                return this.Food;
-            }
-
-            public double GetFitness()
-            {
-                this.Fitness = _fitnessFunc(this.Food);
-                return this.Fitness;
-            }
-            #endregion
-
-            public static double GetFitness(FoodSource _food, Func<FoodSource, double> _fitnessFunc)
-            {
-                return _fitnessFunc(_food);
-            }
-
-            #region "OnlookerBees"
-
-            #endregion
-
-            public enum TypeClass
-            {
-                Employed,
-                Onlooker,
-                Scout
-            }
-        }
-
-        public class BeeLahc<FoodSource>: Bee<FoodSource>
-        {
-            protected override int _timeSinceLastImprovement { get; set; }
-            protected override int _nonImprovementLimit { get; set; }
-            protected override Func<FoodSource, FoodSource> _mutationFunc { get; set; }
-            protected override Func<FoodSource, double> _fitnessFunc { get; set; }
-            private LAHC lahc { get; set; }
-            public bool useLahc { get; set; }
-
-            public BeeLahc()
-            {
-                this.Fitness = double.MaxValue;
-                this.defaultFitness = double.MaxValue;
-                this.Type = TypeClass.Scout;
-                this.lahc = new LAHC(20, this.Fitness, Search.Direction.Optimization);
-            }
-            
-            public BeeLahc(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, TypeClass _type, 
-                int ID = 0, int _failureLimit = 20, int _tableSize = 50)
-            {
-                if ((Hive<FoodSource>.Movement == Search.Direction.Divergence))
-                {
-                    this.Fitness = double.MinValue;
-                    defaultFitness = double.MinValue;
-                }
-                else if (Hive<FoodSource>.Movement == Search.Direction.Optimization)
-                {
-                    this.Fitness = double.MaxValue;
-                    defaultFitness = double.MaxValue;
-                }
-                if (mFunc == null | fFunc == null)
-                {
-                    throw new Exception(string.Format("Ogbeni, na Bee #{0} be this. How i wan take mutate na?", ID));
-                }
-                this._nonImprovementLimit = _failureLimit;
-                this._mutationFunc = mFunc;
-                this._fitnessFunc = fFunc;
-                this.Type = _type;
-                this.lahc = new LAHC(_tableSize, this.Fitness, Hive<FoodSource>.Movement);
-            }
-
-            public override FoodSource Mutate()
-            {
-                FoodSource ret = _mutationFunc(this.Food);
-                double _fitness = Bee<FoodSource>.GetFitness(ret, _fitnessFunc);
-                if (this.Fitness.Equals(defaultFitness) || _fitness < this.Fitness || (useLahc && this.lahc.Update(_fitness)))
-                {
-                    this.Fitness = _fitness;
-                    this.Food = ret;
-                    this._timeSinceLastImprovement = 0;
-                }
-                else
-                {
-                    this._timeSinceLastImprovement += 1;
-                    //Solution has not improved
-                    if (this._timeSinceLastImprovement >= this._nonImprovementLimit)
-                    {
-                        this.ChangeToOnlooker();
-                    }
-                }
-                return this.Food;
-            }
-
-        }
-
     }
 }

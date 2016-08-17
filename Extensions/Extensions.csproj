@@ -74,6 +74,8 @@
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="Heuristics\Meta\Hive-Bee-Lahc.cs" />
+    <Compile Include="Heuristics\Meta\Hive-Bee.cs" />
     <Compile Include="Heuristics\Meta\Hive.cs" />
     <Compile Include="Heuristics\Meta\LAHC.cs" />
     <Compile Include="Heuristics\Meta\Search.cs" />
