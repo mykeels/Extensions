@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 
