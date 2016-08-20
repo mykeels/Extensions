@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Extensions.Heuristics.Meta.Abc;
+using Extensions.Heuristics.Meta.GA;
 
-namespace Extensions.Heuristics.Meta
+namespace Extensions.Heuristics.Meta.Problems
 {
     public class EightQueens
     {
@@ -68,9 +70,22 @@ namespace Extensions.Heuristics.Meta
 
         public static byte[] GetCorrectSolution(bool writeToConsole = false)
         {
-            Hive<byte[], Bee<byte[]>>.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
+            Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
+            hive.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
                 EightQueens.Clone, Selection.RoulleteWheel);
-            byte[] food = (byte[])Hive<byte[], Bee<byte[]>>.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
+            byte[] food = (byte[])hive.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
+            return food;
+        }
+
+        public static byte[] GetCorrectSolutionGA(bool writeToConsole = false)
+        {
+            GeneticAlgorithm<byte[]> ga = new GeneticAlgorithm<byte[]>(20, (byte[] a, byte[] b) =>
+            {
+                return GA.CrossOver.Random(a.AsEnumerable(), b.AsEnumerable()).ToArray();
+            });
+            ga.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
+                EightQueens.Clone, Selection.RoulleteWheel);
+            byte[] food = (byte[])ga.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
             return food;
         }
     }

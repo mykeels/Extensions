@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Extensions.Heuristics.Meta
+namespace Extensions.Heuristics.Meta.Abc
 {
     public class Bee<FoodSource> : IBee<FoodSource>
     {
@@ -13,6 +13,7 @@ namespace Extensions.Heuristics.Meta
         public FoodSource Food { get; set; }
         public double Fitness { get; set; }
         public double defaultFitness { get; set; }
+        public Search.Direction Movement { get; set; }
         protected virtual int _timeSinceLastImprovement { get; set; }
         protected virtual int _nonImprovementLimit { get; set; }
         protected virtual Func<FoodSource, FoodSource> _mutationFunc { get; set; }
@@ -25,19 +26,19 @@ namespace Extensions.Heuristics.Meta
             this.Type = BeeTypeClass.Scout;
         }
 
-        public Bee(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, BeeTypeClass _type, int ID = 0, int _failureLimit = 20)
+        public Bee(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, BeeTypeClass _type, int ID = 0, int _failureLimit = 20, Search.Direction movement = Search.Direction.Optimization)
         {
-            this.Init(mFunc, fFunc, _type, ID, _failureLimit);
+            this.Init(mFunc, fFunc, _type, ID, _failureLimit, movement);
         }
 
-        public void Init(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, BeeTypeClass _type, int ID = 0, int _failureLimit = 20)
+        public void Init(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, BeeTypeClass _type, int ID = 0, int _failureLimit = 20, Search.Direction movement = Search.Direction.Optimization)
         {
-            if ((Hive<FoodSource, Bee<FoodSource>>.Movement == Search.Direction.Divergence))
+            if ((movement == Search.Direction.Divergence))
             {
                 this.Fitness = double.MinValue;
                 defaultFitness = double.MinValue;
             }
-            else if (Hive<FoodSource, Bee<FoodSource>>.Movement == Search.Direction.Optimization)
+            else if (movement == Search.Direction.Optimization)
             {
                 this.Fitness = double.MaxValue;
                 defaultFitness = double.MaxValue;
@@ -50,6 +51,7 @@ namespace Extensions.Heuristics.Meta
             this._mutationFunc = mFunc;
             this._fitnessFunc = fFunc;
             this.Type = _type;
+            this.Movement = movement;
         }
 
         public void ChangeToEmployed(FoodSource _food, Func<FoodSource, FoodSource> mFunc = null, Func<FoodSource, double> fFunc = null)

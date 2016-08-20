@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Extensions.Heuristics.Meta
+namespace Extensions.Heuristics.Meta.Abc
 {
     public class BeeLahc<FoodSource> : Bee<FoodSource>, IBee<FoodSource>
     {
@@ -24,14 +24,14 @@ namespace Extensions.Heuristics.Meta
         }
 
         public BeeLahc(Func<FoodSource, FoodSource> mFunc, Func<FoodSource, double> fFunc, BeeTypeClass _type,
-            int ID = 0, int _failureLimit = 20, int _tableSize = 50)
+            int ID = 0, int _failureLimit = 20, int _tableSize = 50, Search.Direction movement = Search.Direction.Optimization)
         {
-            if ((Hive<FoodSource, BeeLahc<FoodSource>>.Movement == Search.Direction.Divergence))
+            if ((movement == Search.Direction.Divergence))
             {
                 this.Fitness = double.MinValue;
                 defaultFitness = double.MinValue;
             }
-            else if (Hive<FoodSource, BeeLahc<FoodSource>>.Movement == Search.Direction.Optimization)
+            else if (movement == Search.Direction.Optimization)
             {
                 this.Fitness = double.MaxValue;
                 defaultFitness = double.MaxValue;
@@ -44,7 +44,8 @@ namespace Extensions.Heuristics.Meta
             this._mutationFunc = mFunc;
             this._fitnessFunc = fFunc;
             this.Type = _type;
-            this.lahc = new LAHC(_tableSize, this.Fitness, Hive<FoodSource, BeeLahc<FoodSource>>.Movement);
+            this.lahc = new LAHC(_tableSize, this.Fitness, movement);
+            this.Movement = movement;
         }
 
         public override FoodSource Mutate()
