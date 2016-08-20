@@ -1,5 +1,7 @@
 # Artificial Bee Colony Classes
 
+![Bee Hive](http://www.cbronline.com/Uploads/NewsArticle/4928042/main.gif)
+
 The Hive and Bee clases exist in a Hive-contains-Bees relationship. Together, they can work together to provide approximate solutions to NP-Hard problems, once the following parameters for said problems are provided:
 
 - *Initialize Solution Function*
@@ -24,10 +26,27 @@ The Hive and Bee clases exist in a Hive-contains-Bees relationship. Together, th
   
   An Example showing how to use ABC to solve the Eight Queens Problem:
   
-  ```
-  Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
-  hive.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness, EightQueens.Clone, Selection.RoulleteWheel);
-  byte[] food = (byte[])hive.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
-  ```
+```cs
+Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
+hive.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness, EightQueens.Clone, Selection.RoulleteWheel);
+byte[] food = (byte[])hive.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
+```
   
-  The program above solves the eight queens problem using the artificial bee colony algorithm. Cool, yea??? Just wait till i implement the travelling salesman problem.
+The program above solves the eight queens problem using the artificial bee colony algorithm. Cool, yea??? Just wait till i implement the [Travelling Salesman Problem](https://simple.wikipedia.org/wiki/Travelling_salesman_problem).
+
+![Artificial Bee Colony Algorithm](http://www.clownsonrounds.com/wp-content/uploads/2015/03/bee-cartoon.png)
+
+## About Artificial Bee Colony
+
+This is an optimization algorithm based on the intelligent foraging behaviour of honey bee swarm. It was proposed by Karaboga in 2005, and models the way bees look for the best food sources while foraging.
+
+Bees are divided into:
+
+- Employed Bees
+  They have food sources (candidate solutions) as targets of their work, and they try to improve the solution. If the solution does not improve after a specifed number of trials, they abandon the food and become onlooker bees
+
+- Onlooker Bees
+  These bees watch the employed bees, and select one based on its fitness probability and the chosen selection method which is usually Roulette Wheel. When a selection is made, the onlooker bee becomes an employed bee.
+
+- Scout Bees
+  Abandoned fod sources are collected, investigated and replaced with new ones by scouts.
