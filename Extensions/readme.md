@@ -1,6 +1,7 @@
 # Extensions Library
 
-A .NET Library filled with Extension Methods for popular classes i work with, and other useful namespaces and classes. The Extension Methods include the following:
+In object-oriented computer programming, an [extension method](https://en.wikipedia.org/wiki/Extension_method) is a method added to an object after the original object was compiled. The modified object is often a class, a prototype or a type. Extension methods are features of some object-oriented programming languages.
+This is a .NET Library filled with Extension Methods for popular classes i work with, and other useful namespaces and classes. The Extension Methods include the following:
 
 ### Bitmap Extensions
 
@@ -170,7 +171,139 @@ There are many extensions methods that you will find useful ...
 - `string.ToInteger` converts a string to an integer
 - `int.Pad(count)` returns a string representing the padded integer. The Integer is padded with preceding zeros (0s)
 ### Object Extensions
+This contains general methods that sometimes extend objects in .NET, such that almost every object can use them. They include:
+
+- `static T Clone<T>(this T obj)`
+  Make clones of your objects easily with this methods
+
+- `static Y Copy<X, Y>(this Y obj1, X obj2)`
+  Copy the properties of one object into another. They do not have to be of the same type/class.
+
+- `static int IndexOfProperty(this PropertyInfo[] info, string prop)`
+  Find the Index of a Particular Property in an Object. This is very useful during reflection
+
+- `static Y GetValue<X,Y>(this X obj, string prop)`
+  Get the value of particular property in an object. Useful when dealing with dynamic objects, where you cannot simply say `dynamic_obj.property_name`. Rather, use `dynamic_obj.GetValue("property_name")`
+
+- `static void SetValue<X, Y>(this X obj, string prop, Y value)`
+  Sets the value of a specified property in an object. This is also useful when working with dynamic objects and late-runtime binding. Use as `dynamic_obj.SetValue("property_name", "property_value")`
+
+- `static byte[] ToBytes<T>(this T obj)`
+  Convert any Object to bytes using Serialization. If using a custom class, you might want to mark it as serializable.
+
+- `static XElement ToXElement<T>(this T obj)`
+  Convert any Object to XElement. I find this particularly useful when saving to MsSQL database XML fields. `obj.ToXElement()` always does the trick.
+
+- `static void SaveToFile(this byte[] arr, string f)`
+  Want to Save a byte array to file without going through the rigor or creating a filestream and stuff?
+  ```cs
+  byte[] arr = new byte[] {0, 5, 23, 67, 89};
+  arr.SaveToFile("mykeels.dat");
+  ```
+  When combined with the ToBytes extension method, you can easily save an object to disk such as:
+  ```cs
+  Person p = new Person("Michael");
+  p.ToBytes().SaveToFile(p.Name.ToLower() + ".dat");
+  ```
+  
+- `static T ToObject<T>(this byte[] arr)`
+  Convert a byte array into an object of a specified type. `myPersonBytes.ToObject<Person>()`
+
+- `static T ToObject<T>(this XElement xml)`
+  Convert an XElement into an object of a specified type.  `myPersonXElem.ToObject<Person>()`
 
 ### Rectangle Extensions
+I worked with rectangles when doing work on an object recognition software. I had to make sure overlapping rectangles were combined into a single rectangle at some point. I finally had this class to show for my work done.
 
+- `static bool EqualsTo(this Rectangle rect1, Rectangle rect2)`
+  Are these two Rectangles equal? Do they have the same size and start point? Use this extension method to find out.
+
+- `static Rectangle Overlap(this Rectangle rect1, Rectangle rect2)`
+  Does this rectangle overlap with this other rectangle? This is the extension method for the job.
+
+- `static Rectangle Inflate(this Rectangle rect, int size)`
+  I want to inflate this rectangle by this number of pixels (defined by the size variable)
+
+- `static bool CloseTo(this Rectangle rect1, Rectangle rect2, int threshold)`
+  How close are these two rectangles? Is the value within a defined threshold? Find out with this method.
+
+- `static bool Contains(this IEnumerable<Rectangle> rects, Rectangle rect)`
+  Does this rectangle contain the other rectangle? This is the extension method for you
+
+- `static IEnumerable<Rectangle> Distinct(this IEnumerable<Rectangle> rects)`
+  Returns distinct rectangles from a collection
+  
 ### String Extensions
+What would we do without text? There are probably more efficient methods to perform the functions that this class offers, but till i know what they are, these are the best i can offer.
+
+- `static string ToSentenceCase(this string s)`
+  Returns a string with the first letter capitalized.
+  ```cs
+  "i am ikechi michael".ToSentenceCase(); // will return 'I am ikechi michael'
+  ```
+
+- `static string CapitaliseEachWord(this string s)`
+  Returns a string with each word capitalized
+  ```cs
+  "i am ikechi michael".CapitaliseEachWord(); // will return 'I Am Ikechi Michael'
+  ```
+
+- `static string EncodeURI(this string s1, List<char> exempt = null)`
+  Removes all special characters and separates a string using hyphens such as used in clean urls. 
+  ```cs
+  "Magic Moments".EncodeURI(); // returns 'magic-moments'
+  ```
+
+- `static bool HasSpecial(this string str)`
+  Returns a boolean indicating whether a string contains special characters or not
+
+- `static List<char> GetSpecials(this string str)`
+  Returns a List of special characters that a string contains
+
+- `static string DecodeURI(this string s1)`
+  Converts a string from clean url format e.g. `'magic-moments'` into Word Capitalized form e.g. `"Magic Moments"`
+
+- `static string Shuffle(this string s)`
+  Shuffles a string randomly e.g. `"Michael".Shuffle()` could become `"hMileac"`
+
+- `static bool HasLower(this string str)`
+  Returns a boolean indicating whether the string has lowercase characters
+
+- `static bool HasUpper(this string str)`
+  Returns a boolean indicating whether the string has uppercase characters
+
+- `static bool IsString(this object value)`
+  Is this dynamic object a string or not? This is your extension method for the job
+
+- `static double ContainPercentage(this string s, string f)`
+  Gives the percentage correlation of a string to another ... Useful when comparing spell-error-prone strings
+
+- `static FoundText Find(this string s, string f)`
+  Returns the Start and End indices of a string in another
+
+- `static List<FoundText> FindAll(this string s, string f)`
+  Returns a List of all Start and End Indices of a string in another
+
+- `static string Truncate(this string s, int length, bool allowword = true)`
+  Truncates a string based on a specified text length. You could specify that it breaks a word if [allowword] is set to false
+
+- `static string Encrypt(this string s, string password = null)`
+  Use AES Encryption on your strings easily
+
+- `static string Decrypt(this string s, string password = null)`
+  Decrypt your AES encrypted strings easily
+
+- `static string ToJson<T>(this T obj, bool useIndent = false)`
+  Convert any object into its Json Equivalent
+
+- `static void SaveToFile(this string txt, string f)`
+  Save any string to Disk
+
+- `static string First(this string s, int count = 1)`
+  Returns a string containing the first [count] characters in the parent string
+
+- `static string Last(this string s, int count = 1)`
+  Returns a string containing the last [count] characters in the parent string
+  
+
+
