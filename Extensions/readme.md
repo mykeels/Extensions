@@ -1,6 +1,7 @@
 # Extensions Library
 
 In object-oriented computer programming, an [extension method](https://en.wikipedia.org/wiki/Extension_method) is a method added to an object after the original object was compiled. The modified object is often a class, a prototype or a type. Extension methods are features of some object-oriented programming languages.
+
 This is a .NET Library filled with Extension Methods for popular classes i work with, and other useful namespaces and classes. The Extension Methods include the following:
 
 ### Bitmap Extensions
@@ -170,6 +171,7 @@ There are many extensions methods that you will find useful ...
 - `object.IsNumber` lets you know if an unidentified object is numeric
 - `string.ToInteger` converts a string to an integer
 - `int.Pad(count)` returns a string representing the padded integer. The Integer is padded with preceding zeros (0s)
+
 ### Object Extensions
 This contains general methods that sometimes extend objects in .NET, such that almost every object can use them. They include:
 
