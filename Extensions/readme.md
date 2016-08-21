@@ -1,5 +1,12 @@
 # Extensions Library
 
+[![GitHub issues](https://img.shields.io/github/issues/mykeels/Extensions.svg)](https://github.com/mykeels/Extensions/issues)
+![Githuc coverage](https://img.shields.io/badge/coverage-unknown-yellowgreen.svg)
+[![GitHub forks](https://img.shields.io/github/forks/mykeels/Extensions.svg)](https://github.com/mykeels/Extensions/network)
+[![GitHub stars](https://img.shields.io/github/stars/mykeels/Extensions.svg)](https://github.com/mykeels/Extensions/stargazers)
+[![Shippable](https://img.shields.io/shippable/5444c5ecb904a4b21567b0ff.svg?maxAge=2592000)]()
+![Language](https://img.shields.io/badge/language-c%23-blue.svg)
+
 In object-oriented computer programming, an [extension method](https://en.wikipedia.org/wiki/Extension_method) is a method added to an object after the original object was compiled. The modified object is often a class, a prototype or a type. Extension methods are features of some object-oriented programming languages.
 
 This is a .NET Library filled with Extension Methods for popular classes i work with, and other useful namespaces and classes. The Extension Methods include the following:
