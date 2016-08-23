@@ -31,50 +31,54 @@ namespace Extensions
         {
             current = new Thread(() =>
             {
-                try
-                {
-                    dynamic result = work();
-                    if (success != null)
-                    {
-                        success(result);
-                    }
-                    if (then.Count > 0)
-                    {
-                        then.ForEach((action) =>
-                        {
-                            action(result);
-                        });
-                    }
-                    if (state.Equals(State.Pending)) state = State.Fulfilled;
-                }
-                catch (Exception ex)
-                {
-                    if (state.Equals(State.Pending)) state = State.Rejected;
-                    if (error != null) error(ex);
-                    else
-                    {
-                        Console.WriteLine(ex);
-                        throw ex;
-                    }
-                }
-                try
-                {
-                    if (done != null) done();
-                }
-                catch (Exception ex)
-                {
-                    if (state.Equals(State.Pending)) state = State.Rejected;
-                    if (error != null) error(ex);
-                    else
-                    {
-                        Console.WriteLine(ex);
-                        throw ex;
-                    }
-                }
-
+                innerExecute();
             });
             current.SetApartmentState(ApartmentState.STA);
             current.Start();
+        }
+
+        private void innerExecute()
+        {
+            try
+            {
+                dynamic result = work();
+                if (success != null)
+                {
+                    success(result);
+                }
+                if (then.Count > 0)
+                {
+                    then.ForEach((action) =>
+                    {
+                        action(result);
+                    });
+                }
+                if (state.Equals(State.Pending)) state = State.Fulfilled;
+            }
+            catch (Exception ex)
+            {
+                if (state.Equals(State.Pending)) state = State.Rejected;
+                if (error != null) error(ex);
+                else
+                {
+                    Console.WriteLine(ex);
+                    throw ex;
+                }
+            }
+            try
+            {
+                if (done != null) done();
+            }
+            catch (Exception ex)
+            {
+                if (state.Equals(State.Pending)) state = State.Rejected;
+                if (error != null) error(ex);
+                else
+                {
+                    Console.WriteLine(ex);
+                    throw ex;
+                }
+            }
         }
 
         public Promise<T> Wait()
