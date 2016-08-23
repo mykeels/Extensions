@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test Extensions", "Test Ext
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Misc", "Misc\Misc.csproj", "{3A58C09B-2519-4D41-8D47-A8E44A9D31AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CdnBundle", "CdnBundle\CdnBundle.csproj", "{5512DA57-5E65-4871-8323-DE69D72B1052}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{3A58C09B-2519-4D41-8D47-A8E44A9D31AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A58C09B-2519-4D41-8D47-A8E44A9D31AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A58C09B-2519-4D41-8D47-A8E44A9D31AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5512DA57-5E65-4871-8323-DE69D72B1052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5512DA57-5E65-4871-8323-DE69D72B1052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5512DA57-5E65-4871-8323-DE69D72B1052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5512DA57-5E65-4871-8323-DE69D72B1052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
