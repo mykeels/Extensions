@@ -307,12 +307,14 @@ namespace Extensions
 
         public static string ToJson(this object obj, bool useIndent = false)
         {
+            if (obj is byte[]) return "[" + ((byte[])obj).Join(", ") + "]";
             if (useIndent) return Newtonsoft.Json.JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.Indented);
             return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }
 
         public static string ToJson<T>(this T obj, bool useIndent = false)
         {
+            if (obj is byte[]) return "[" + ((byte[])((object)obj)).Join(", ") + "]";
             if (useIndent) return Newtonsoft.Json.JsonConvert.SerializeObject(obj, Newtonsoft.Json.Formatting.Indented);
             return Newtonsoft.Json.JsonConvert.SerializeObject(obj);
         }

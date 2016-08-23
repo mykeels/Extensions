@@ -74,7 +74,14 @@
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Encryption.cs" />
-    <Compile Include="Heuristics\Meta\Hive.cs" />
+    <Compile Include="Heuristics\Meta\GA\CrossOver.cs" />
+    <Compile Include="Heuristics\Meta\GA\GeneticAlgorithm.cs" />
+    <Compile Include="Heuristics\Meta\IMetaHeuristic.cs" />
+    <Compile Include="Heuristics\Meta\Problems\EightQueens.cs" />
+    <Compile Include="Heuristics\Meta\Abc\Hive-Bee-Lahc.cs" />
+    <Compile Include="Heuristics\Meta\Abc\Hive-Bee.cs" />
+    <Compile Include="Heuristics\Meta\Abc\Hive.cs" />
+    <Compile Include="Heuristics\Meta\Abc\IBee.cs" />
     <Compile Include="Heuristics\Meta\LAHC.cs" />
     <Compile Include="Heuristics\Meta\Search.cs" />
     <Compile Include="Heuristics\Meta\Selection.cs" />
