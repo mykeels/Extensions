@@ -15,12 +15,9 @@ namespace Misc
     {
         public static void Main(String[] args)
         {
-<<<<<<< HEAD
             Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
-=======
             byte[] food = EightQueens.GetCorrectSolutionGA(true);
             Console.WriteLine(food.Join(",") + " = " + EightQueens.GetSolutionFitness(food) + " queens check each other");
->>>>>>> origin/master
             Console.Read();
         }
 

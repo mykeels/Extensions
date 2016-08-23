@@ -12,3 +12,5 @@ C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\ob
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.pdb
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Interop.SHDocVw.dll
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\obj\Debug\Extensions.csproj.ResolveComReference.cache
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Elmah.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Extensions\bin\Debug\Newtonsoft.Json.dll
