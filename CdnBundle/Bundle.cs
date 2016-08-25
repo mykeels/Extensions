@@ -39,7 +39,7 @@ namespace CdnBundle
             }
             else
             {
-                if (bundles.All((b) => b.type == Bundle.BundleType.CSS)) return "<style>" + response + "</style";
+                if (bundles.All((b) => b.type == Bundle.BundleType.CSS)) return "<style>" + response + "</style>";
                 else return "<script>" + response + "</script>";
             }
         }

@@ -322,7 +322,7 @@ namespace Extensions
         public static void SaveToFile(this string txt, string f)
         {
             byte[] b = new byte[5];
-            System.IO.File.WriteAllText(f, txt, System.Text.Encoding.ASCII);
+            System.IO.File.WriteAllText(f, txt, Encoding.UTF8);
         }
 
         public static string First(this string s, int count = 1)

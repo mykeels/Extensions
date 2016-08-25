@@ -52,7 +52,7 @@ namespace Extensions
             Stream stream = new MemoryStream();
             stream = client.OpenRead(url);
             string b = "";
-            using (System.IO.StreamReader br = new System.IO.StreamReader(stream))
+            using (System.IO.StreamReader br = new System.IO.StreamReader(stream, Encoding.UTF8))
             {
                 try
                 {
