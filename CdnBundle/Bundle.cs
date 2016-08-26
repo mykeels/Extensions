@@ -43,6 +43,14 @@ namespace CdnBundle
                 else return "<script>" + response + "</script>";
             }
         }
+
+        public static void Test()
+        {
+            List<Bundle> bundles = new List<Bundle>();
+            bundles.Add(new Bundle("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js", @"~/jquery.min.js", Bundle.BundleType.JavaScript, false));
+            bundles.Add(new Bundle("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js", @"~/jquery-ui.min.js", Bundle.BundleType.JavaScript, false));
+            bundles.Add(new Bundle(@"~/my-local-script.js", Bundle.BundleType.JavaScript, true));
+        }
     }
     public class Bundle
     {
@@ -60,6 +68,13 @@ namespace CdnBundle
         public Bundle(string cdnUrl, string localUrl, BundleType bundleType, bool useMinification = true)
         {
             this.cdnUrl = cdnUrl;
+            this.localUrl = localUrl;
+            this.type = bundleType;
+            this.useMinification = useMinification;
+        }
+
+        public Bundle(string localUrl, BundleType bundleType, bool useMinification = true)
+        {
             this.localUrl = localUrl;
             this.type = bundleType;
             this.useMinification = useMinification;
