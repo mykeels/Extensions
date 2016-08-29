@@ -21,11 +21,16 @@ namespace CdnBundle
             string response = sb.ToString();
             if (!String.IsNullOrEmpty(localUrl))
             {
-                if (!cacheRecords.ContainsKey(localUrl) || (cacheRecords.ContainsKey(localUrl) && (DateTime.Now.Subtract(cacheRecords[localUrl]).TotalHours > 24)))
+                if (!cacheRecords.ContainsKey(localUrl))
                 {
                     cacheRecords.Add(localUrl, DateTime.Now);
-                    response.SaveToFile(Bundle.getLocalFilePath(localUrl));
                 }
+                else if (cacheRecords.ContainsKey(localUrl) && (DateTime.Now.Subtract(cacheRecords[localUrl]).TotalHours > 24))
+                {
+                    cacheRecords[localUrl] = DateTime.Now;
+                }
+                response.SaveToFile(Bundle.getLocalFilePath(localUrl));
+
                 if (bundles.All((b) => b.type == Bundle.BundleType.CSS))
                 {
                     // css link stylesheet
@@ -42,6 +47,11 @@ namespace CdnBundle
                 if (bundles.All((b) => b.type == Bundle.BundleType.CSS)) return "<style>" + response + "</style>";
                 else return "<script>" + response + "</script>";
             }
+        }
+
+        public static void ClearAllRecords()
+        {
+            cacheRecords.Clear();
         }
     }
     public class Bundle
