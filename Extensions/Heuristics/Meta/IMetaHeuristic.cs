@@ -13,6 +13,8 @@ namespace Extensions.Heuristics.Meta
 
         SolutionType SingleIteration(Func<SolutionType> initializeSolutionFunction, bool writeToConsole = false);
 
-        SolutionType FullIteration(Func<SolutionType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false);
+        SolutionType FullIteration(Func<SolutionType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false, Action<SolutionType> executeOnBestFood = null);
+
+        List<double> GetIterationSequence();
     }
 }

@@ -14,4 +14,3 @@ C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Test Extensio
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Test Extensions\bin\Debug\Test Extensions.pdb
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Test Extensions\bin\Debug\InputSimulator.pdb
 C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Test Extensions\bin\Debug\InputSimulator.xml
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\Test Extensions\bin\Debug\Newtonsoft.Json.dll

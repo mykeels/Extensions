@@ -20,6 +20,7 @@ namespace Extensions.Heuristics.Meta.GA
         public List<KeyValue<IndividualType, double>> Population { get; set; }
         public int PopulationSize { get; set; }
         public Search.Direction Movement { get; set; }
+        private List<double> _iterationFitnessSequence = new List<double>();
 
         public GeneticAlgorithm()
         {
@@ -73,12 +74,19 @@ namespace Extensions.Heuristics.Meta.GA
             }
         }
 
-        public IndividualType FullIteration(Func<IndividualType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false)
+        public List<double> GetIterationSequence()
+        {
+            return _iterationFitnessSequence;
+        }
+
+        public IndividualType FullIteration(Func<IndividualType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false, Action<IndividualType> executeOnBestFood = null)
         {
             Start(initializeSolutionFunction);
             for (int count = 1; count <= noOfIterations; count++)
             {
-                SingleIteration(initializeSolutionFunction, writeToConsole);
+                IndividualType _bestIndividual = SingleIteration(initializeSolutionFunction, writeToConsole);
+                _iterationFitnessSequence.Add(_bestFitness);
+                executeOnBestFood?.Invoke(_bestIndividual);
             }
             Console.WriteLine("End of Iterations");
             return _bestIndividual;

@@ -18,6 +18,9 @@ namespace Extensions.Heuristics.Meta.Abc
         public Search.Direction Movement { get; set; }
         public List<IBee<FoodType>> Bees = new List<IBee<FoodType>>();
 
+        private int _iterationCount = 0;
+        private List<double> _iterationFitnessSequence = new List<double>();
+
         public Hive()
         {
 
@@ -131,7 +134,7 @@ namespace Extensions.Heuristics.Meta.Abc
             }
             if (writeToConsole)
             {
-                Console.Write(_bestFitness + "\t\t");
+                Console.Write(_iterationCount + "\t" + _bestFitness + "\t\t");
                 Console.Write("E-Bees: " + _employedCount + '\t');
                 Console.Write("On-Bees: " + Convert.ToInt32(Bees.Count - _employedCount) + '\t');
                 Console.WriteLine();
@@ -139,13 +142,21 @@ namespace Extensions.Heuristics.Meta.Abc
             return ret;
         }
 
-        public FoodType FullIteration(Func<FoodType> initFunc, int noOfIterations = 500, bool writeToConsole = false)
+        public List<double> GetIterationSequence()
+        {
+            return _iterationFitnessSequence;
+        }
+
+        public FoodType FullIteration(Func<FoodType> initFunc, int noOfIterations = 500, bool writeToConsole = false, Action<FoodType> executeOnBestFood = null)
         {
             Start(initFunc);
             FoodType ret = default(FoodType);
             for (int count = 1; count <= noOfIterations; count++)
             {
-                ret = SingleIteration(initFunc, writeToConsole);
+                _iterationCount = count;
+                ret = SingleIteration(initFunc, writeToConsole && count % 10 == 0);
+                _iterationFitnessSequence.Add(_bestFitness);
+                executeOnBestFood?.Invoke(ret);
             }
             ret = _bestFood;
             Console.WriteLine("End of Iterations");
