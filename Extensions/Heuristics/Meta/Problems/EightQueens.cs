@@ -85,7 +85,15 @@ namespace Extensions.Heuristics.Meta.Problems
             });
             ga.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
                 EightQueens.Clone, Selection.RoulleteWheel);
-            byte[] food = (byte[])ga.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
+            byte[] food = ga.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
+            return food;
+        }
+
+        public static byte[] GetCorrectSolutionHC(bool writeToConsole = false)
+        {
+            HillClimb<byte[]> hc = new HillClimb<byte[]>();
+            hc.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness, EightQueens.Clone, Selection.RoulleteWheel);
+            byte[] food = hc.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
             return food;
         }
     }

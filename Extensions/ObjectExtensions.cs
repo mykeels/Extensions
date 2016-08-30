@@ -17,6 +17,7 @@ namespace Extensions
         public static T Clone<T>(this T obj)
         {
             Type t1 = obj.GetType();
+            if (obj is System.Collections.IEnumerable) return obj;
             PropertyInfo[] info1 = t1.GetProperties();
             T ret = (T)System.Activator.CreateInstance(typeof(T));
             PropertyInfo[] info2 = typeof(T).GetProperties();

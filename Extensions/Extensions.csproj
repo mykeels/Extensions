@@ -76,6 +76,7 @@
     <Compile Include="Encryption.cs" />
     <Compile Include="Heuristics\Meta\GA\CrossOver.cs" />
     <Compile Include="Heuristics\Meta\GA\GeneticAlgorithm.cs" />
+    <Compile Include="Heuristics\Meta\HillClimb.cs" />
     <Compile Include="Heuristics\Meta\IMetaHeuristic.cs" />
     <Compile Include="Heuristics\Meta\Problems\EightQueens.cs" />
     <Compile Include="Heuristics\Meta\Abc\Hive-Bee-Lahc.cs" />
