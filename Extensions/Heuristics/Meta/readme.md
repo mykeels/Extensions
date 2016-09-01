@@ -59,4 +59,4 @@ Check out its wiki [here](https://en.wikipedia.org/wiki/Hill_climbing).
 
 ## Configuration<SolutionType>
 
-A Metaheuristic configuration object type ... Check it out [here](configuration.md)
+A Metaheuristic configuration object type ... Check it out [here](Configuration.md)
