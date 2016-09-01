@@ -68,32 +68,42 @@ namespace Extensions.Heuristics.Meta.Problems
             return Convert.ToDouble(ret);
         }
 
-        public static byte[] GetCorrectSolution(bool writeToConsole = false)
+        public static Configuration<byte[]> GetConfiguration()
+        {
+            Configuration<byte[]> config = new Configuration<byte[]>();
+            config.CloneFunction = EightQueens.Clone;
+            config.InitializeSolutionFunction = EightQueens.GenerateNewCandidateSolution;
+            config.MutationFunction = EightQueens.FindNeighbor;
+            config.NoOfIterations = 150;
+            config.ObjectiveFunction = EightQueens.GetSolutionFitness;
+            config.SelectionFunction = Selection.RoulleteWheel;
+            return config;
+        }
+
+        public static byte[] GetCorrectSolutionABC()
         {
             Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
-            hive.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
-                EightQueens.Clone, Selection.RoulleteWheel);
-            byte[] food = (byte[])hive.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
+            hive.Create(GetConfiguration());
+            byte[] food = (byte[])hive.FullIteration();
             return food;
         }
 
-        public static byte[] GetCorrectSolutionGA(bool writeToConsole = false)
+        public static byte[] GetCorrectSolutionGA()
         {
-            GeneticAlgorithm<byte[]> ga = new GeneticAlgorithm<byte[]>(20, (byte[] a, byte[] b) =>
+            GeneticAlgorithm<byte[]> ga = new GeneticAlgorithm<byte[]>((byte[] a, byte[] b) =>
             {
-                return GA.CrossOver.Random(a.AsEnumerable(), b.AsEnumerable()).ToArray();
+                return GA.CrossOver.Uniform(a.AsEnumerable(), b.AsEnumerable()).ToArray();
             });
-            ga.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness,
-                EightQueens.Clone, Selection.RoulleteWheel);
-            byte[] food = ga.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
+            ga.Create(GetConfiguration());
+            byte[] food = ga.FullIteration();
             return food;
         }
 
-        public static byte[] GetCorrectSolutionHC(bool writeToConsole = false)
+        public static byte[] GetCorrectSolutionHC()
         {
             HillClimb<byte[]> hc = new HillClimb<byte[]>();
-            hc.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness, EightQueens.Clone, Selection.RoulleteWheel);
-            byte[] food = hc.FullIteration(EightQueens.GenerateNewCandidateSolution, 500, writeToConsole);
+            hc.Create(GetConfiguration());
+            byte[] food = hc.FullIteration();
             return food;
         }
     }

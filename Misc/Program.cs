@@ -15,9 +15,11 @@ namespace Misc
     {
         public static void Main(String[] args)
         {
-            Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
-            byte[] food = EightQueens.GetCorrectSolutionHC();
-            Console.WriteLine(food.Join(",") + " = " + EightQueens.GetSolutionFitness(food) + " queens check each other");
+            Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
+            List<int> bestSol = Knapsack.SolveABC(k);
+            //Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
+            //byte[] food = EightQueens.GetCorrectSolutionHC();
+            //Console.WriteLine(food.Join(",") + " = " + EightQueens.GetSolutionFitness(food) + " queens check each other");
             Console.Read();
         }
     }

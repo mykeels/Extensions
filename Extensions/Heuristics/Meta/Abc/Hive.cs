@@ -9,13 +9,15 @@ namespace Extensions.Heuristics.Meta.Abc
 {
     public partial class Hive<FoodType, IBee> : IMetaHeuristic<FoodType>
     {
+        public Configuration<FoodType> Config { get; set; }
         //Note that FoodType and FoodSource should be of Same Class/Type
         private FoodType _bestFood { get; set; } // the best food source
         private double _bestFitness { get; set; } // the quality of the best food source
+        private int _failureLimit = 20;
         private double _acceptProbability = 0.4; // the probability that an onlooker bee will accept a food source proposed by an employee bee
-        private Func<FoodType, FoodType> _cloneFunc { get; set; } // a function for cloning a food source. This is important to prevent two bees working on the same object in memory at a time
-        private Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> _selectionMethod { get; set; }
-        public Search.Direction Movement { get; set; }
+        //private Func<FoodType, FoodType> _cloneFunc { get; set; } // a function for cloning a food source. This is important to prevent two bees working on the same object in memory at a time
+        //private Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> _selectionMethod { get; set; }
+        //public Search.Direction Movement { get; set; }
         public List<IBee<FoodType>> Bees = new List<IBee<FoodType>>();
 
         private int _iterationCount = 0;
@@ -26,23 +28,16 @@ namespace Extensions.Heuristics.Meta.Abc
 
         }
 
-        public Hive(Func<FoodType, FoodType> mutateFunc, Func<FoodType, double> fitnessFunc, Func<FoodType, FoodType> cFunc,
-           Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> selectFunc, int noOfBees = 20,
-           int _failureLimit = 20, double _acceptanceProbability = 0.4, Search.Direction _movement = Search.Direction.Optimization)
+        public Hive(int _failureLimit = 20, double _acceptanceProbability = 0.4)
         {
-            this.Create(mutateFunc, fitnessFunc, cFunc, selectFunc, noOfBees, _failureLimit, _acceptanceProbability);
+            this._failureLimit = _failureLimit;
+            this._acceptProbability = _acceptanceProbability;
         }
 
-        public void Create(Func<FoodType, FoodType> mutateFunc, Func<FoodType, double> fitnessFunc, Func<FoodType, FoodType> cFunc,
-           Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> selectFunc)
+        public void Create(Configuration<FoodType> config)
         {
-            this.Create(mutateFunc, fitnessFunc, cFunc, selectFunc, 20);
-        }
-
-        public void Create(Func<FoodType, FoodType> mutateFunc, Func<FoodType, double> fitnessFunc, Func<FoodType, FoodType> cFunc,
-           Func<IEnumerable<FoodType>, IEnumerable<double>, int, IEnumerable<FoodType>> selectFunc, int noOfBees = 20,
-           int _failureLimit = 20, double _acceptanceProbability = 0.4, Search.Direction _movement = Search.Direction.Optimization)
-        {
+            this.Config = config;
+            int noOfBees = config.PopulationSize;
             if (noOfBees <= 1)
             {
                 throw new Exception("You dey Craze? Dem tell you say one (1) bee na Swarm?");
@@ -61,23 +56,20 @@ namespace Extensions.Heuristics.Meta.Abc
                         _type = BeeTypeClass.Onlooker;
                     }
                     IBee<FoodType> bee = (IBee<FoodType>)Activator.CreateInstance<IBee>();
-                    bee.Init(mutateFunc, fitnessFunc, _type, index - 1, _failureLimit);
+                    bee.Init(config.MutationFunction, config.ObjectiveFunction, _type, index - 1, _failureLimit, config.Movement);
                     Bees.Add(bee);
                 }
             }
-            _acceptProbability = _acceptanceProbability;
-            Movement = _movement;
-            _cloneFunc = cFunc;
-            _selectionMethod = selectFunc;
+            this.Start();
         }
 
-        private void Start(Func<FoodType> initFunc)
+        private void Start()
         {
-            if (Movement == Search.Direction.Optimization)
+            if (this.Config.Movement == Search.Direction.Optimization)
             {
                 _bestFitness = double.MaxValue;
             }
-            else if (Movement == Search.Direction.Divergence)
+            else if (this.Config.Movement == Search.Direction.Divergence)
             {
                 _bestFitness = double.MinValue;
             }
@@ -89,50 +81,57 @@ namespace Extensions.Heuristics.Meta.Abc
                     _bee.SetBeeID(index);
                     if (_bee.GetBeeType() == BeeTypeClass.Employed)
                     {
-                        _bee.SetFood(initFunc());
+                        _bee.SetFood(Config.InitializeSolutionFunction());
                         _bee.GetFitness();
                     }
                 }
             }
         }
 
-        public FoodType SingleIteration(Func<FoodType> initFunc, bool writeToConsole = false)
+        public FoodType SingleIteration()
         {
-            if (Bees.All((bee) => bee == default(IBee<FoodType>))) Start(initFunc);
             FoodType ret = default(FoodType);
-            IEnumerable<IBee<FoodType>> _employedBees = Bees.Where((IBee<FoodType> _bee) => { return _bee.GetBeeType().Equals(BeeTypeClass.Employed) & _bee.GetFood() != null; }).ToList();
+            IEnumerable<IBee<FoodType>> _employedBees = Bees.Where((IBee<FoodType> _bee) => { return _bee.GetBeeType().Equals(BeeTypeClass.Employed) && _bee.GetFood() != null; }).ToList();
             int _employedCount = _employedBees.Count();
             for (int i = 0; i <= (_employedCount - 1); i++)
             {
                 IBee<FoodType> _eBee = _employedBees.ElementAt(i);
-                _eBee.SetFood(_eBee.Mutate());
+                FoodType currentFood = Config.CloneFunction.Invoke(_eBee.GetFood());
+                FoodType newFood = _eBee.Mutate();
+                if (Config.HardObjectiveFunction != null)
+                {
+                    bool passHardConstraints = Config.HardObjectiveFunction.Invoke(newFood);
+                    if (Config.EnforceHardObjective && passHardConstraints) _eBee.SetFood(newFood);
+                    else _eBee.SetFood(currentFood);
+                }
+                else _eBee.SetFood(newFood);
                 Bees[_eBee.GetBeeID()] = _eBee;
             }
             this.ShareInformation();
             IEnumerable<double> _fitnesses = Bees.Select((IBee<FoodType> _bee) => { return _bee.GetFitness(); });
             double _bestFit = 0;
             //collate bestFitness and bestFood
-            if (Movement == Search.Direction.Divergence)
+            if (this.Config.Movement == Search.Direction.Divergence)
             {
                 _bestFit = _fitnesses.Max();
                 ret = Bees[_fitnesses.ToList().IndexOf(_bestFit)].GetFood();
                 if (_bestFit > _bestFitness)
                 {
                     _bestFitness = _bestFit;
-                    _bestFood = _cloneFunc(ret);
+                    _bestFood = this.Config.CloneFunction.Invoke(ret);
                 }
             }
-            else if (Movement == Search.Direction.Optimization)
+            else if (this.Config.Movement == Search.Direction.Optimization)
             {
                 _bestFit = _fitnesses.Min();
                 ret = Bees[_fitnesses.ToList().IndexOf(_bestFit)].GetFood();
                 if (_bestFit < _bestFitness)
                 {
                     _bestFitness = _bestFit;
-                    _bestFood = _cloneFunc(ret);
+                    _bestFood = this.Config.CloneFunction.Invoke(ret);
                 }
             }
-            if (writeToConsole)
+            if (Config.WriteToConsole && _iterationCount % Config.ConsoleWriteInterval == 0)
             {
                 Console.Write(_iterationCount + "\t" + _bestFitness + "\t\t");
                 Console.Write("E-Bees: " + _employedCount + '\t');
@@ -147,16 +146,14 @@ namespace Extensions.Heuristics.Meta.Abc
             return _iterationFitnessSequence;
         }
 
-        public FoodType FullIteration(Func<FoodType> initFunc, int noOfIterations = 500, bool writeToConsole = false, Action<FoodType> executeOnBestFood = null)
+        public FoodType FullIteration()
         {
-            Start(initFunc);
             FoodType ret = default(FoodType);
-            for (int count = 1; count <= noOfIterations; count++)
+            for (int count = 1; count <= Config.NoOfIterations; count++)
             {
                 _iterationCount = count;
-                ret = SingleIteration(initFunc, writeToConsole && count % 10 == 0);
+                ret = SingleIteration();
                 _iterationFitnessSequence.Add(_bestFitness);
-                executeOnBestFood?.Invoke(ret);
             }
             ret = _bestFood;
             Console.WriteLine("End of Iterations");
@@ -187,7 +184,7 @@ namespace Extensions.Heuristics.Meta.Abc
             List<double> fitnesses = _employedBees.Select(_bee => { return _bee.GetFitness(); }).ToList();
             double sum = fitnesses.Sum();
             if (fitnesses.IsEmpty()) return default(FoodType);
-            return _selectionMethod(_employedBees.Select((_bee) => _bee.GetFood()), fitnesses, 1).First();
+            return this.Config.SelectionFunction.Invoke(_employedBees.Select((_bee) => _bee.GetFood()), fitnesses, 1).First();
             /*while (true)
             {
                 int selectedIndex = 0;

@@ -8,54 +8,41 @@ namespace Extensions.Heuristics.Meta
 {
     public class HillClimb<SolutionType> : IMetaHeuristic<SolutionType>
     {
+        public Configuration<SolutionType> Config { get; set; }
         private SolutionType _bestIndividual { get; set; }
         private double _bestFitness { get; set; }
-        private Func<SolutionType> _initFunc { get; set; }
-        private Func<SolutionType, SolutionType> _cloneFunc { get; set; }
-        private Func<SolutionType, SolutionType> _mutateFunc { get; set; }
-        private Func<SolutionType, double> _fitnessFunc { get; set; }
-        public Search.Direction Movement { get; set; }
+        private int _iterationCount = 0;
         private List<double> _iterationFitnessSequence = new List<double>();
 
-        public HillClimb(Search.Direction movement = Search.Direction.Optimization)
+        public HillClimb()
         {
-            this.Movement = movement;
+
         }
 
-        public void Create(Func<SolutionType, SolutionType> mutationFunction, Func<SolutionType, double> objectiveFunction, 
-            Func<SolutionType, SolutionType> cloneFunction, Func<IEnumerable<SolutionType>, IEnumerable<double>, int, IEnumerable<SolutionType>> selectionFunction = null)
+        public void Create(Configuration<SolutionType> config)
         {
-            this._mutateFunc = mutationFunction;
-            this._fitnessFunc = objectiveFunction;
-            this._cloneFunc = cloneFunction;
-        }
-
-        private void Start(Func<SolutionType> initializeSolutionFunction)
-        {
-            this._initFunc = initializeSolutionFunction;
-            if (Movement == Search.Direction.Optimization)
+            this.Config = config;
+            if (Config.Movement == Search.Direction.Optimization)
             {
                 _bestFitness = double.MaxValue;
             }
-            else if (Movement == Search.Direction.Divergence)
+            else if (Config.Movement == Search.Direction.Divergence)
             {
                 _bestFitness = double.MinValue;
             }
-            this._bestIndividual = _initFunc();
-            this._bestFitness = _fitnessFunc(this._bestIndividual);
+            this._bestIndividual = Config.InitializeSolutionFunction();
+            this._bestFitness = Config.ObjectiveFunction(this._bestIndividual);
         }
 
-        public SolutionType FullIteration(Func<SolutionType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false, 
-            Action<SolutionType> executeOnBestFood = null)
+        public SolutionType FullIteration()
         {
-            this.Start(initializeSolutionFunction);
-            for (int count = 1; count <= noOfIterations; count++)
+            for (int count = 1; count <= Config.NoOfIterations; count++)
             {
-                _bestIndividual = SingleIteration(initializeSolutionFunction, writeToConsole);
+                _iterationCount = count;
+                _bestIndividual = SingleIteration();
                 _iterationFitnessSequence.Add(_bestFitness);
-                executeOnBestFood?.Invoke(_bestIndividual);
             }
-            if (writeToConsole) Console.WriteLine("End of Iterations");
+            if (Config.WriteToConsole) Console.WriteLine("End of Iterations");
             return _bestIndividual;
         }
 
@@ -64,17 +51,22 @@ namespace Extensions.Heuristics.Meta
             return _iterationFitnessSequence;
         }
 
-        public SolutionType SingleIteration(Func<SolutionType> initializeSolutionFunction, bool writeToConsole = false)
+        public SolutionType SingleIteration()
         {
-            if (_bestIndividual == null) this.Start(initializeSolutionFunction);
-            SolutionType newSol = _mutateFunc(_cloneFunc(_bestIndividual));
-            double newFit = _fitnessFunc(newSol);
-            if ((Movement == Search.Direction.Optimization && newFit < _bestFitness) || (Movement == Search.Direction.Divergence && newFit > _bestFitness))
+            SolutionType newSol = Config.MutationFunction(Config.CloneFunction(_bestIndividual));
+            double newFit = Config.ObjectiveFunction(newSol);
+
+            if ((Config.HardObjectiveFunction != null &&
+                    ((Config.EnforceHardObjective && Config.HardObjectiveFunction(newSol)) || (!Config.EnforceHardObjective))) ||
+                    Config.HardObjectiveFunction == null)
             {
-                _bestIndividual = _cloneFunc(newSol);
-                _bestFitness = newFit;
-            }
-            if (writeToConsole) Console.WriteLine(_bestFitness);
+                if ((Config.Movement == Search.Direction.Optimization && newFit < _bestFitness) || (Config.Movement == Search.Direction.Divergence && newFit > _bestFitness))
+                {
+                    _bestIndividual = Config.CloneFunction(newSol);
+                    _bestFitness = newFit;
+                }
+            }   
+            if (Config.WriteToConsole && _iterationCount % Config.ConsoleWriteInterval == 0) Console.WriteLine(_iterationCount + "\t" + _bestIndividual.ToJson() + " = " + _bestFitness);
             return _bestIndividual;
         }
     }
