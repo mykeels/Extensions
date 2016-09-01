@@ -125,6 +125,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Heuristics\Meta\Abc\Readme.md" />
+    <None Include="Heuristics\Meta\GA\GeneticAlgorithm.md" />
+    <None Include="Heuristics\Meta\GA\Readme.md" />
+    <None Include="Heuristics\Meta\Problems\Readme.md" />
+    <None Include="Heuristics\Meta\Configuration.md" />
+    <None Include="Heuristics\Meta\Readme.md" />
     <None Include="Resources\cities.json" />
     <None Include="Resources\continents" />
     <None Include="Resources\countries.json" />
