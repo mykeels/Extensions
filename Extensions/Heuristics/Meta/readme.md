@@ -4,7 +4,7 @@ In computer science and mathematical optimization, a meta-heuristic is a higher-
 
 This namespace contains the following:
 
-### IMetaHeuristics
+## IMetaHeuristics
 
 This is an interface. Every meta-heuristic algorithm class in this project implements this interface. It contains methods such as 
 
@@ -19,7 +19,7 @@ SolutionType SingleIteration(Func<SolutionType> initializeSolutionFunction, bool
 SolutionType FullIteration(Func<SolutionType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false);
 ```
 
-### LAHC
+## LAHC
 
 This means [Late Acceptance Hill Climbing](http://www.yuribykov.com/LAHC/), a meta-heuristic proposed by Yuri Bykov in August 2008. This class has not been implemented as a stand-alone meta-heuristic. 
 
@@ -27,7 +27,9 @@ Rather, a stand-alone meta-heuristic such as [Artificial Bee Colony](https://git
 
 Such a class would gain late acceptance hill climbing powers, which would give it more exploratory power. Hmm, cool idea for a super power, huh? ExploraBot, the auto bot that goes adventuring in deep space ....
 
-### Search
+Note: This should probably be simply `Late Acceptance` rather than `Late Acceptance Hill Climbing` because it is not the full LAHC Algorithm. I'll rename this to `LateAcceptance` instead
+
+## Search
 
 The Search class is to contain Enums and other common resources to be used throughout this namespace.
 
@@ -59,4 +61,4 @@ Check out its wiki [here](https://en.wikipedia.org/wiki/Hill_climbing).
 
 ## Configuration<SolutionType>
 
-A Metaheuristic configuration object type ... Check it out [here](Configuration.md)
+A Meta-Heuristic configuration object type ... Check it out [here](Configuration.md)
