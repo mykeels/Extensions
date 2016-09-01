@@ -117,7 +117,8 @@ namespace Extensions.Heuristics.Meta.Abc
         {
             FoodSource ret = _mutationFunc(this.Food);
             double _fitness = Bee<FoodSource>.GetFitness(ret, _fitnessFunc);
-            if (this.Fitness.Equals(defaultFitness) | _fitness < this.Fitness)
+            if (this.Fitness.Equals(defaultFitness) | (Movement == Search.Direction.Optimization && _fitness < this.Fitness) || 
+                (Movement == Search.Direction.Divergence && _fitness > this.Fitness))
             {
                 this.Fitness = _fitness;
                 this.Food = ret;

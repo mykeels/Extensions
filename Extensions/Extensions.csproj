@@ -74,6 +74,7 @@
     <Compile Include="BooleanExtensions.cs" />
     <Compile Include="ConsoleExtensions.cs" />
     <Compile Include="Encryption.cs" />
+    <Compile Include="Heuristics\Meta\Configuration.cs" />
     <Compile Include="Heuristics\Meta\GA\CrossOver.cs" />
     <Compile Include="Heuristics\Meta\GA\GeneticAlgorithm.cs" />
     <Compile Include="Heuristics\Meta\HillClimb.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="Heuristics\Meta\Abc\Hive.cs" />
     <Compile Include="Heuristics\Meta\Abc\IBee.cs" />
     <Compile Include="Heuristics\Meta\LAHC.cs" />
+    <Compile Include="Heuristics\Meta\Problems\Knapsack.cs" />
     <Compile Include="Heuristics\Meta\Search.cs" />
     <Compile Include="Heuristics\Meta\Selection.cs" />
     <Compile Include="HtmlExtensions.cs" />
@@ -123,6 +125,12 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Heuristics\Meta\Abc\Readme.md" />
+    <None Include="Heuristics\Meta\GA\GeneticAlgorithm.md" />
+    <None Include="Heuristics\Meta\GA\Readme.md" />
+    <None Include="Heuristics\Meta\Problems\Readme.md" />
+    <None Include="Heuristics\Meta\Configuration.md" />
+    <None Include="Heuristics\Meta\Readme.md" />
     <None Include="Resources\cities.json" />
     <None Include="Resources\continents" />
     <None Include="Resources\countries.json" />
