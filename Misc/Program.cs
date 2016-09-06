@@ -15,6 +15,8 @@ namespace Misc
     {
         public static void Main(String[] args)
         {
+            Console.WriteLine(Extensions.Models.Location.Country.GetCountries().ToJson(true));
+            Console.Read();
             Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
             List<int> bestSol = Knapsack.SolveABC(k);
             //Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
