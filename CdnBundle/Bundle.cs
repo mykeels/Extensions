@@ -153,7 +153,8 @@ namespace CdnBundle
                 {
                     if (cdnUrl.StartsWith("~/")) cdnUrl = cdnUrl.Replace("~/", GetLeftUrl());
                     response = Api.Get(cdnUrl);
-                    if (!cacheRecords.ContainsKey(cdnUrl)) cacheRecords.Add(cdnUrl, DateTime.Now);
+                    if (!cacheRecords.ContainsKey(cdnUrl) && !String.IsNullOrEmpty(response)) cacheRecords.Add(cdnUrl, DateTime.Now);
+                    else if (String.IsNullOrEmpty(response) && System.IO.File.Exists(getLocalFilePath())) response = System.IO.File.ReadAllText(getLocalFilePath());
                 }
                 catch (Exception ex)
                 {
