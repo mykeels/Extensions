@@ -83,6 +83,17 @@ namespace Extensions
             return false;
         }
 
+        public static bool IsNumeric(this string s1)
+        {
+            for (int i = 0; i < s1.Length; i++)
+            {
+                int x = 0;
+                bool success = Int32.TryParse(s1[i].ToString(), out x);
+                if (!success) return false;
+            }
+            return true;
+        }
+
         public static List<char> GetSpecials(this string str)
         {
             List<char> ret = new List<char>();
