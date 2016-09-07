@@ -10,6 +10,32 @@ namespace CdnBundle
 {
     public static class BundleListExtensions
     {
+        public static void AddSafe<K, V>(this IDictionary<K, V> mydict, K key, V value)
+        {
+            if (mydict.ContainsKey(key))
+            {
+                try
+                {
+                    mydict[key] = value;
+                }
+                catch (Exception ex)
+                {
+                    mydict.Add(key, value);
+                }
+            }
+            else
+            {
+                try
+                {
+                    mydict.Add(key, value);
+                }
+                catch (Exception ex)
+                {
+                    mydict[key] = value;
+                }
+            }
+        }
+
         private static Dictionary<string, DateTime> cacheRecords = new Dictionary<string, DateTime>();
         public static string Load(this IEnumerable<Bundle> bundles, string localUrl = null, bool async = false)
         {
@@ -23,7 +49,7 @@ namespace CdnBundle
             {
                 if (!cacheRecords.ContainsKey(localUrl))
                 {
-                    cacheRecords.Add(localUrl, DateTime.Now);
+                    cacheRecords.AddSafe(localUrl, DateTime.Now);
                 }
                 else if (cacheRecords.ContainsKey(localUrl) && (DateTime.Now.Subtract(cacheRecords[localUrl]).TotalHours > 24))
                 {
@@ -146,6 +172,16 @@ namespace CdnBundle
         {
             StringBuilder sb = new StringBuilder();
             var minifier = new Microsoft.Ajax.Utilities.Minifier();
+            if (!String.IsNullOrEmpty(localUrl) && System.IO.File.Exists(localUrl)) //check that the file exists in file system
+            {
+                var file = new System.IO.FileInfo(getLocalFilePath());
+                if (DateTime.Now.Subtract(file.LastWriteTime).TotalHours <= 24) //check that the local file's last modification time was at most 24 hours ago
+                {
+                    sb.Append(System.IO.File.ReadAllText(getLocalFilePath()));
+                    sb.AppendLine();
+                    return sb.ToString();
+                }
+            }
             if (!String.IsNullOrEmpty(cdnUrl) && (!cacheRecords.ContainsKey(cdnUrl) || DateTime.Now.Subtract(cacheRecords[cdnUrl]).TotalHours > 24))
             {
                 string response = "";
@@ -153,7 +189,7 @@ namespace CdnBundle
                 {
                     if (cdnUrl.StartsWith("~/")) cdnUrl = cdnUrl.Replace("~/", GetLeftUrl());
                     response = Api.Get(cdnUrl);
-                    if (!cacheRecords.ContainsKey(cdnUrl) && !String.IsNullOrEmpty(response)) cacheRecords.Add(cdnUrl, DateTime.Now);
+                    if (!cacheRecords.ContainsKey(cdnUrl) && !String.IsNullOrEmpty(response)) cacheRecords.AddSafe(cdnUrl, DateTime.Now);
                     else if (String.IsNullOrEmpty(response) && System.IO.File.Exists(getLocalFilePath())) response = System.IO.File.ReadAllText(getLocalFilePath());
                 }
                 catch (Exception ex)
@@ -168,7 +204,11 @@ namespace CdnBundle
                 }
                 if (!String.IsNullOrEmpty(localUrl))
                 {
-                    response.SaveToFile(getLocalFilePath());
+                    try
+                    {
+                        response.SaveToFile(getLocalFilePath());
+                    }
+                    catch (Exception ex) { }
                 }
                 sb.Append(response);
                 sb.AppendLine();
