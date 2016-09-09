@@ -30,5 +30,11 @@ namespace Extensions.Heuristics.Meta
             this.PopulationSize = 1;
             this.ConsoleWriteInterval = 10;
         }
+        
+        public bool newFitnessIsBetter(double oldFitness, double newFitness)
+        {
+            return (Movement == Search.Direction.Optimization && newFitness < oldFitness) ||
+                (Movement == Search.Direction.Divergence && newFitness > oldFitness);
+        }
     }
 }

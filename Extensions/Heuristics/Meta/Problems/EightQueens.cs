@@ -74,7 +74,7 @@ namespace Extensions.Heuristics.Meta.Problems
             config.CloneFunction = EightQueens.Clone;
             config.InitializeSolutionFunction = EightQueens.GenerateNewCandidateSolution;
             config.MutationFunction = EightQueens.FindNeighbor;
-            config.NoOfIterations = 150;
+            config.NoOfIterations = 1500;
             config.ObjectiveFunction = EightQueens.GetSolutionFitness;
             config.SelectionFunction = Selection.RoulleteWheel;
             return config;
@@ -104,6 +104,14 @@ namespace Extensions.Heuristics.Meta.Problems
             HillClimb<byte[]> hc = new HillClimb<byte[]>();
             hc.Create(GetConfiguration());
             byte[] food = hc.FullIteration();
+            return food;
+        }
+
+        public static byte[] GetCorrectSolutionSA()
+        {
+            SimulatedAnnealing<byte[]> sa = new SimulatedAnnealing<byte[]>();
+            sa.Create(GetConfiguration());
+            byte[] food = sa.FullIteration();
             return food;
         }
     }

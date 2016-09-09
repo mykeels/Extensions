@@ -370,7 +370,7 @@ namespace Extensions.Heuristics.Meta.Problems
             config.InitializeSolutionFunction = this.GetInitialSolution;
             config.Movement = Search.Direction.Divergence;
             config.MutationFunction = this.Mutate;
-            config.NoOfIterations = 1500;
+            config.NoOfIterations = 100500;
             config.ObjectiveFunction = this.GetFitness;
             config.PopulationSize = 50;
             config.SelectionFunction = Selection.RoulleteWheel;
@@ -404,6 +404,13 @@ namespace Extensions.Heuristics.Meta.Problems
             HillClimb<List<int>> hc = new HillClimb<List<int>>();
             hc.Create(k.GetConfiguration());
             return hc.FullIteration();
+        }
+
+        public static List<int> SolveSA(Knapsack k)
+        {
+            SimulatedAnnealing<List<int>> sa = new SimulatedAnnealing<List<int>>();
+            sa.Create(k.GetConfiguration());
+            return sa.FullIteration();
         }
     }
 }

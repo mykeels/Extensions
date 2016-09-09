@@ -88,6 +88,7 @@
     <Compile Include="Heuristics\Meta\Problems\Knapsack.cs" />
     <Compile Include="Heuristics\Meta\Search.cs" />
     <Compile Include="Heuristics\Meta\Selection.cs" />
+    <Compile Include="Heuristics\Meta\SimulatedAnnealing.cs" />
     <Compile Include="HtmlExtensions.cs" />
     <Compile Include="IO\Directory.cs" />
     <Compile Include="ListExtensions.cs" />

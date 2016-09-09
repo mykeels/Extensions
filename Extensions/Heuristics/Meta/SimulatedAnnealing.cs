@@ -11,6 +11,8 @@ namespace Extensions.Heuristics.Meta
         public Configuration<SolutionType> Config { get; set; }
         private SolutionType _bestIndividual { get; set; }
         private double _bestFitness { get; set; }
+        private SolutionType _currentIndividual { get; set; }
+        private double _currentFitness { get; set; }
         private int _iterationCount { get; set; }
         private List<double> _iterationFitnessSequence { get; set; }
         private double _initialTemperature { get; set; }
@@ -19,12 +21,21 @@ namespace Extensions.Heuristics.Meta
         private Func<double, double> _temperatureUpdateFunction { get; set; }
         private TemperatureUpdate _temperatureUpdateType { get; set; }
 
+        public enum TemperatureUpdate
+        {
+            Default,
+            Fast,
+            Boltz,
+            Other
+        }
+
         public SimulatedAnnealing()
         {
             this._initialTemperature = 100;
             this._temperature = 100;
             this._iterationFitnessSequence = new List<double>();
             this._acceptanceProbabilityFunction = defaultAcceptanceProbabilityFunction;
+            this._temperatureUpdateFunction = defaultTemperatureUpdate;
         }
 
         public SimulatedAnnealing(Func<double, double, double> _acceptanceProbabilityFunction, TemperatureUpdate _temperatureUpdateType, 
@@ -45,36 +56,61 @@ namespace Extensions.Heuristics.Meta
         {
             this.Config = config;
             if (_acceptanceProbabilityFunction == null) _acceptanceProbabilityFunction = defaultAcceptanceProbabilityFunction;
-
+            _currentIndividual = Config.InitializeSolutionFunction();
+            _currentFitness = Config.ObjectiveFunction(_currentIndividual);
+            _bestIndividual = Config.CloneFunction(_currentIndividual);
+            _bestFitness = _currentFitness + 0;
         }
 
         public SolutionType FullIteration()
         {
-            throw new NotImplementedException();
+            for (int count = 1; count <= Config.NoOfIterations; count++)
+            {
+                _iterationCount = count;
+                _currentIndividual = SingleIteration();
+                _iterationFitnessSequence.Add(_currentFitness);
+            }
+            if (Config.WriteToConsole) Console.WriteLine("End of Iterations");
+            return _bestIndividual;
         }
 
         public List<double> GetIterationSequence()
         {
-            throw new NotImplementedException();
+            return _iterationFitnessSequence;
         }
 
         public SolutionType SingleIteration()
         {
-            throw new NotImplementedException();
+            _temperature = _temperatureUpdateFunction(_temperature);
+            SolutionType newSol = Config.MutationFunction(_currentIndividual);
+            double newFitness = Config.ObjectiveFunction(newSol);
+
+            if ((Config.HardObjectiveFunction != null &&
+                    ((Config.EnforceHardObjective && Config.HardObjectiveFunction(newSol)) || (!Config.EnforceHardObjective))) ||
+                    Config.HardObjectiveFunction == null)
+            {
+                if (_acceptanceProbabilityFunction(_currentFitness, newFitness) >= Number.Rnd())
+                {
+                    _currentIndividual = newSol;
+                    _currentFitness = newFitness + 0;
+                }
+
+                if ((Config.newFitnessIsBetter(_bestFitness, _currentFitness))) //store the best individual if the current is better
+                {
+                    _bestIndividual = Config.CloneFunction(_currentIndividual);
+                    _bestFitness = _currentFitness + 0;
+                }
+            }
+
+            if (Config.WriteToConsole && (_iterationCount % Config.ConsoleWriteInterval == 0)) Console.WriteLine(_iterationCount + "\t" + _bestIndividual.ToJson() + " = " + _bestFitness);
+            return _currentIndividual; //current individual is returned
         }
 
         private double defaultAcceptanceProbabilityFunction(double oldFitness, double newFitness)
         {
-            if (newFitness < oldFitness) return 1;
-            else return 1 / (1 + Math.Exp((newFitness - oldFitness) / _temperature));
-        }
-        
-        public enum TemperatureUpdate
-        {
-            Default,
-            Fast,
-            Boltz,
-            Other
+            if (Config.newFitnessIsBetter(oldFitness, newFitness)) return 1;
+            else if (Config.Movement == Search.Direction.Divergence) return 1 / (1 + Math.Exp((newFitness - oldFitness) / _temperature));
+            else return 1 / (1 + Math.Exp((oldFitness - newFitness) / _temperature));
         }
 
         private double defaultTemperatureUpdate(double temperature)

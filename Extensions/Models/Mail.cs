@@ -94,6 +94,7 @@ namespace Extensions.Models
                 path = path.Replace("~/", Site.GetLeftUrl());
                 body = Api.Get(path);
             }
+            body = body.Replace("~/", Site.GetLeftUrl());
             if (replaces != null)
             {
                 foreach (var pair in replaces)

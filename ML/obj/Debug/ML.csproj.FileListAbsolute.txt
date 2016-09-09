@@ -1,0 +1,17 @@
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\ML.exe.config
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\ML.exe
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\ML.pdb
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\Extensions.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\Newtonsoft.Json.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\numl.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\SendGridMail.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\Elmah.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\SendGrid.SmtpApi.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\System.Data.SqlServerCe.dll
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\Extensions.pdb
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\Newtonsoft.Json.xml
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\numl.pdb
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\bin\Debug\numl.xml
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\obj\Debug\ML.csprojResolveAssemblyReference.cache
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\obj\Debug\ML.exe
+C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\ML\obj\Debug\ML.pdb
