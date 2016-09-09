@@ -8,6 +8,7 @@ using System.Configuration;
 using System.Text;
 using System.Text.RegularExpressions;
 using Elmah;
+using Extensions;
 
 namespace Extensions.Models
 {
@@ -68,7 +69,14 @@ namespace Extensions.Models
             ErrorSignal.FromCurrentContext().Raise(ex);
         }
 
-        public static bool IsMobile(bool checkTablet = true)
+        public static bool IsOperaMini()
+        {
+            string userAgent = Site.Context().Request.ServerVariables["HTTP_USER_AGENT"];
+            if (String.IsNullOrEmpty(userAgent)) return false;
+            return IsMobile() && userAgent.ToLower().ContainPercentage("opera") > 0.7;
+        }
+
+        public static bool IsMobile()
         {
             string u = Site.Context().Request.ServerVariables["HTTP_USER_AGENT"];
             Regex b = new Regex(mobileAgents, RegexOptions.IgnoreCase);
