@@ -156,6 +156,18 @@ namespace Extensions
             return false;
         }
 
+        public static string Between(this string str, string s1, string s2)
+        {
+            if (String.IsNullOrEmpty(s1) || String.IsNullOrEmpty(s2) || str.IndexOf(s1) < 0 || str.IndexOf(s2) < 0) return null;
+            else
+            {
+                FoundText f1 = str.Find(s1);
+                FoundText f2 = str.Find(s2);
+                if (f2.StartIndex > f1.EndIndex) return str.Substring(f1.EndIndex + 1, f2.StartIndex - f1.EndIndex - 1);
+                else return str.Substring(f2.EndIndex + 1, f1.StartIndex - f2.EndIndex - 1);
+            }
+        }
+
         public static bool HasUpper(this string str)
         {
             for (int i = 0; i < str.Length; i++)

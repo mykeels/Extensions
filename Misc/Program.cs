@@ -15,8 +15,8 @@ namespace Misc
     {
         public static void Main(String[] args)
         {
-            //Console.WriteLine("20160620170146".IsNumeric());
-            //Console.Read();
+            Console.WriteLine("<listId>150018</listId>".Between("<listId>", "</listId>"));
+            Console.Read();
             Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
             List<int> bestSol = Knapsack.SolveABC(k);
             Console.Read();
