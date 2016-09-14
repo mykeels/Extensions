@@ -48,7 +48,7 @@ namespace Extensions.Models
         public static string MapPath(string path = "")
         {
             if (!path.StartsWith("~/")) return path;
-            if (Context() == null) return path.Replace("~", System.Environment.CurrentDirectory);
+            if (Context() == null) return path.Replace("~", System.Environment.CurrentDirectory.Replace(@"\", "/"));
             return Context().Server.MapPath(path);
         }
 

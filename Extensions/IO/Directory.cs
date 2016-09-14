@@ -23,7 +23,7 @@ namespace Extensions.IO
             string[] parts = path.Split(splitter);
             if (System.IO.File.Exists(path)) return parts.First(parts.Count() - 1).Join("/");
             else if (System.IO.Directory.Exists(path)) return path;
-            else return path;
+            else return parts.First(parts.Count() - 1).Join("/");
         }
     }
 }

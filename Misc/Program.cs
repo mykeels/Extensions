@@ -18,7 +18,7 @@ namespace Misc
             //Console.WriteLine("20160620170146".IsNumeric());
             //Console.Read();
             Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
-            List<int> bestSol = Knapsack.SolveSA(k);
+            List<int> bestSol = Knapsack.SolveABC(k);
             Console.Read();
             //Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
             //byte[] food = EightQueens.GetCorrectSolutionSA();
