@@ -312,17 +312,18 @@ namespace Extensions
             int i = 0;
             myarray.ForEach((X item) =>
             {
+                //if (ret.LastOrDefault() == null || ret.LastOrDefault().IsEmpty()) ret.Add(new List<X>());
                 if (i < width)
                 {
                     ret_i.Add(item);
                     i += 1;
                 }
-                else
+                if (i == width)
                 {
                     ret.Add(ret_i);
-                    ret_i.Clear();
-                    ret_i.Add(item);
-                    i = 1;
+                    ret_i = new List<X>();
+                    //ret_i.Add(item);
+                    i = 0;
                 }
             });
             if (!ret_i.IsEmpty()) ret.Add(ret_i);
