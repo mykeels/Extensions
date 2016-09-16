@@ -63,7 +63,7 @@ namespace Extensions
 
         public static Bitmap Scale(this Bitmap source, int size)
         {
-            Single scale = size / source.Width;
+            Single scale = (Single)size / (Single)source.Width;
             Bitmap bmp = new Bitmap(Convert.ToInt32(scale * source.Width), Convert.ToInt32(scale * source.Height), source.PixelFormat);
             Graphics g = Graphics.FromImage(bmp);
             g.DrawImage(source, 0, 0, bmp.Width + 1, bmp.Height + 1);
