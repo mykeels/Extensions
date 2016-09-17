@@ -27,9 +27,17 @@ The Hive and Bee clases exist in a Hive-contains-Bees relationship. Together, th
   An Example showing how to use ABC to solve the Eight Queens Problem:
   
 ```cs
-Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
-hive.Create(EightQueens.FindNeighbor, EightQueens.GetSolutionFitness, EightQueens.Clone, Selection.RoulleteWheel);
-byte[] food = (byte[])hive.FullIteration(EightQueens.GenerateNewCandidateSolution, 150, writeToConsole);
+  Configuration<byte[]> config = new Configuration<byte[]>();
+  config.CloneFunction = EightQueens.Clone;
+  config.InitializeSolutionFunction = EightQueens.GenerateNewCandidateSolution;
+  config.MutationFunction = EightQueens.FindNeighbor;
+  config.NoOfIterations = 1500;
+  config.ObjectiveFunction = EightQueens.GetSolutionFitness;
+  config.SelectionFunction = Selection.RoulleteWheel;
+  
+  Hive<byte[], Bee<byte[]>> hive = new Hive<byte[], Bee<byte[]>>();
+  hive.Create(config);
+  byte[] food = (byte[])hive.FullIteration();
 ```
   
 The program above solves the eight queens problem using the artificial bee colony algorithm. Cool, yea??? Just wait till i implement the [Travelling Salesman Problem](https://simple.wikipedia.org/wiki/Travelling_salesman_problem).
