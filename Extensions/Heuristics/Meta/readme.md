@@ -10,13 +10,15 @@ This is an interface. Every meta-heuristic algorithm class in this project imple
 
 ```cs
 //accepts functions that are neccessary in most meta-heuristic algorithms
-void Create(Func<SolutionType, SolutionType> mutationFunction, Func<SolutionType, double> objectiveFunction, Func<SolutionType, SolutionType> cloneFunction, Func<IEnumerable<SolutionType>, IEnumerable<double>, int, IEnumerable<SolutionType>> selectionFunction);
+void Create(Configuration<SolutionType> config);
 
-//performs a single iteration step and accepts a function that generates an initial solution
-SolutionType SingleIteration(Func<SolutionType> initializeSolutionFunction, bool writeToConsole = false);
+//performs a single iteration step
+SolutionType SingleIteration();
 
 //performs a specified number of iterations
-SolutionType FullIteration(Func<SolutionType> initializeSolutionFunction, int noOfIterations = 500, bool writeToConsole = false);
+SolutionType FullIteration();
+
+List<double> GetIterationSequence();
 ```
 
 ## LAHC
