@@ -26,6 +26,7 @@ namespace Extensions.Heuristics.Meta.Problems
 
         public static byte[] Clone(byte[] queens)
         {
+            
             List<byte> ret = new List<byte>();
             for (int i = 0; i < queens.Length; i++)
             {

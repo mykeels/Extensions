@@ -91,21 +91,24 @@ namespace Extensions.Heuristics.Meta.Abc
         public FoodType SingleIteration()
         {
             FoodType ret = default(FoodType);
-            IEnumerable<IBee<FoodType>> _employedBees = Bees.Where((IBee<FoodType> _bee) => { return _bee.GetBeeType().Equals(BeeTypeClass.Employed) && _bee.GetFood() != null; }).ToList();
+            List<IBee<FoodType>> _employedBees = Bees.Where((IBee<FoodType> _bee) => { return _bee.GetBeeType() == BeeTypeClass.Employed && _bee.GetFood() != null; }).ToList();
             int _employedCount = _employedBees.Count();
             for (int i = 0; i <= (_employedCount - 1); i++)
             {
                 IBee<FoodType> _eBee = _employedBees.ElementAt(i);
-                FoodType currentFood = Config.CloneFunction.Invoke(_eBee.GetFood());
-                FoodType newFood = _eBee.Mutate();
-                if (Config.HardObjectiveFunction != null)
+                if (_eBee.GetBeeType() == BeeTypeClass.Employed && _eBee.GetFood() != null)
                 {
-                    bool passHardConstraints = Config.HardObjectiveFunction.Invoke(newFood);
-                    if (Config.EnforceHardObjective && passHardConstraints) _eBee.SetFood(newFood);
-                    else _eBee.SetFood(currentFood);
+                    FoodType currentFood = Config.CloneFunction.Invoke(_eBee.GetFood());
+                    FoodType newFood = _eBee.Mutate();
+                    if (Config.HardObjectiveFunction != null)
+                    {
+                        bool passHardConstraints = Config.HardObjectiveFunction.Invoke(newFood);
+                        if (Config.EnforceHardObjective && passHardConstraints) _eBee.SetFood(newFood);
+                        else _eBee.SetFood(currentFood);
+                    }
+                    else _eBee.SetFood(newFood);
+                    Bees[_eBee.GetBeeID()] = _eBee;
                 }
-                else _eBee.SetFood(newFood);
-                Bees[_eBee.GetBeeID()] = _eBee;
             }
             this.ShareInformation();
             IEnumerable<double> _fitnesses = Bees.Select((IBee<FoodType> _bee) => { return _bee.GetFitness(); });
