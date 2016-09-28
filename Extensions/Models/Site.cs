@@ -90,6 +90,11 @@ namespace Extensions.Models
             return !IsMobile();
         }
 
+        public static bool IsInternetExplorer()
+        {
+            return Regex.IsMatch(Site.Context().Request.UserAgent, @"Trident/7.*rv:11");
+        }
+
         public static Type GetSiteType()
         {
             string site_culture = Site.AppSettings("OverrideCulture").ToLower();
