@@ -60,7 +60,7 @@ namespace CdnBundle
                 if (bundles.All((b) => b.type == Bundle.BundleType.CSS))
                 {
                     // css link stylesheet
-                    return "<link href=\"" + Bundle.getResolvePath(localUrl) + "\" type=\"text/css\"" + (async ? " async" : "") + " rel =\"stylesheet\"></link>";
+                    return "<link href=\"" + Bundle.getResolvePath(localUrl) + "\" type=\"text/css\"" + (async ? " async" : "") + " rel =\"stylesheet\" />";
                 }
                 else
                 {
