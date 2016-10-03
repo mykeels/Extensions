@@ -102,11 +102,16 @@ namespace Extensions.Heuristics.Meta.Abc
                     FoodType newFood = _eBee.Mutate();
                     if (Config.HardObjectiveFunction != null)
                     {
-                        bool passHardConstraints = Config.HardObjectiveFunction.Invoke(newFood);
-                        if (Config.EnforceHardObjective && passHardConstraints) _eBee.SetFood(newFood);
+                        if (newFood != null)
+                        {
+                            bool passHardConstraints = Config.HardObjectiveFunction.Invoke(newFood);
+                            if ((Config.EnforceHardObjective && passHardConstraints) || passHardConstraints) _eBee.SetFood(newFood);
+                            else _eBee.SetFood(currentFood);
+                        }
                         else _eBee.SetFood(currentFood);
                     }
-                    else _eBee.SetFood(newFood);
+                    else if (newFood != null) _eBee.SetFood(newFood);
+                    else _eBee.SetFood(currentFood);
                     Bees[_eBee.GetBeeID()] = _eBee;
                 }
             }
@@ -139,6 +144,7 @@ namespace Extensions.Heuristics.Meta.Abc
                 Console.Write(_iterationCount + "\t" + _bestFitness + "\t\t");
                 Console.Write("E-Bees: " + _employedCount + '\t');
                 Console.Write("On-Bees: " + Convert.ToInt32(Bees.Count - _employedCount) + '\t');
+                if ((Config.HardObjectiveFunction != null)) Console.Write("Hard: " + Config.HardObjectiveFunction.Invoke(_bestFood));
                 Console.WriteLine();
             }
             return ret;

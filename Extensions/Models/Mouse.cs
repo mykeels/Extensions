@@ -52,11 +52,6 @@ namespace Extensions.Models
             Wheel = 0x800
         }
 
-        /*const uint MOUSEEVENTF_LEFTDOWN = 0x02;
-            const uint MOUSEEVENTF_LEFTUP = 0x04;
-            const int MOUSEEVENTF_RIGHTDOWN = 0x08;
-            const int MOUSEEVENTF_RIGHTUP = 0x10;*/
-
         public class Win32
         {
             [DllImport("User32.Dll")]

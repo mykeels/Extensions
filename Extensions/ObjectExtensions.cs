@@ -131,9 +131,29 @@ namespace Extensions
             }
         }
 
+        public static void CreateOrAppendToFile(this byte[] arr, string f)
+        {
+            if (!System.IO.File.Exists(f))
+            {
+                arr.SaveToFile(f);
+            }
+            else
+            {
+                arr.AppendToFile(f);
+            }
+        }
+
         public static void SaveToFile(this byte[] arr, string f)
         {
             System.IO.FileStream fs = new System.IO.FileStream(f, System.IO.FileMode.CreateNew);
+            fs.Write(arr, 0, arr.Length);
+            fs.Flush();
+            fs.Close();
+        }
+
+        public static void AppendToFile(this byte[] arr, string f)
+        {
+            System.IO.FileStream fs = new System.IO.FileStream(f, System.IO.FileMode.Append);
             fs.Write(arr, 0, arr.Length);
             fs.Flush();
             fs.Close();
