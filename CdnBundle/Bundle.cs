@@ -8,87 +8,7 @@ using Microsoft.Ajax;
 
 namespace CdnBundle
 {
-    public static class BundleListExtensions
-    {
-        public static void AddSafe<K, V>(this IDictionary<K, V> mydict, K key, V value)
-        {
-            if (mydict.ContainsKey(key))
-            {
-                try
-                {
-                    mydict[key] = value;
-                }
-                catch (Exception ex)
-                {
-                    mydict.Add(key, value);
-                }
-            }
-            else
-            {
-                try
-                {
-                    mydict.Add(key, value);
-                }
-                catch (Exception ex)
-                {
-                    mydict[key] = value;
-                }
-            }
-        }
-
-        private static Dictionary<string, DateTime> cacheRecords = new Dictionary<string, DateTime>();
-        public static string Load(this IEnumerable<Bundle> bundles, string localUrl = null, bool async = false)
-        {
-            StringBuilder sb = new StringBuilder();
-            foreach (Bundle bundle in bundles)
-            {
-                sb.Append(bundle.Load());
-            }
-            string response = sb.ToString();
-            if (!String.IsNullOrEmpty(localUrl))
-            {
-                if (!cacheRecords.ContainsKey(localUrl))
-                {
-                    cacheRecords.AddSafe(localUrl, DateTime.Now);
-                }
-                else if (cacheRecords.ContainsKey(localUrl) && (DateTime.Now.Subtract(cacheRecords[localUrl]).TotalHours > 24))
-                {
-                    cacheRecords[localUrl] = DateTime.Now;
-                }
-                response.SaveToFile(Bundle.getLocalFilePath(localUrl));
-
-                if (bundles.All((b) => b.type == Bundle.BundleType.CSS))
-                {
-                    // css link stylesheet
-                    return "<link href=\"" + Bundle.getResolvePath(localUrl) + "\" type=\"text/css\"" + (async ? " async" : "") + " rel =\"stylesheet\" />";
-                }
-                else
-                {
-                    //js script tag
-                    return "<script src=\"" + Bundle.getResolvePath(localUrl) + "\"" + (async ? " async" : "") + "></script>";
-                }
-            }
-            else
-            {
-                if (bundles.All((b) => b.type == Bundle.BundleType.CSS)) return "<style>" + response + "</style>";
-                else return "<script>" + response + "</script>";
-            }
-        }
-
-
-        public static void ClearAllRecords()
-        {
-            cacheRecords.Clear();
-        }
-
-        public static void Test()
-        {
-            List<Bundle> bundles = new List<Bundle>();
-            bundles.Add(new Bundle("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js", @"~/jquery.min.js", Bundle.BundleType.JavaScript, false));
-            bundles.Add(new Bundle("https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js", @"~/jquery-ui.min.js", Bundle.BundleType.JavaScript, false));
-            bundles.Add(new Bundle(@"~/my-local-script.js", Bundle.BundleType.JavaScript, true));
-        }
-    }
+    
     public class Bundle
     {
         public string cdnUrl { get; set; }
@@ -96,6 +16,7 @@ namespace CdnBundle
         public bool useMinification { get; set; }
         public BundleType type { get; set; }
         private static Dictionary<string, DateTime> cacheRecords = new Dictionary<string, DateTime>();
+        private string loadType { get; set; }
 
         public Bundle()
         {
@@ -139,6 +60,7 @@ namespace CdnBundle
             }
             catch (Exception ex)
             {
+                
                 return "/";
             }
         }
@@ -155,7 +77,8 @@ namespace CdnBundle
             {
                 localUrlPath = HttpContext.Current.Server.MapPath(localUrl);
             }
-            return localUrlPath;
+            else if (!String.IsNullOrEmpty(localUrlPath)) return localUrlPath.Replace("~", System.Environment.CurrentDirectory.Replace(@"\", "/"));
+            return localUrlPath ?? "";
         }
 
         public static string getResolvePath(string localUrl)
@@ -168,56 +91,89 @@ namespace CdnBundle
             return localUrlPath;
         }
 
+        public string getLoadType()
+        {
+            return loadType;
+        }
+
+        public System.IO.FileInfo getLocalFileInfo()
+        {
+            System.IO.FileInfo file = new System.IO.FileInfo(getLocalFilePath());
+            return file;
+        }
+
+        private string loadFromCdn()
+        {
+            loadType = "CDN";
+            string response = "";
+            var minifier = new Microsoft.Ajax.Utilities.Minifier();
+            try
+            {
+                if (cdnUrl.StartsWith("~/")) cdnUrl = cdnUrl.Replace("~/", GetLeftUrl());
+                response = Api.Get(cdnUrl);
+                if (!cacheRecords.ContainsKey(cdnUrl) && !String.IsNullOrEmpty(response)) cacheRecords.AddSafe(cdnUrl, DateTime.Now);
+                else if (String.IsNullOrEmpty(response) && System.IO.File.Exists(getLocalFilePath())) response = System.IO.File.ReadAllText(getLocalFilePath());
+            }
+            catch (Exception ex)
+            {
+                if (!String.IsNullOrEmpty(localUrl)) response = System.IO.File.ReadAllText(getLocalFilePath());
+                else throw ex;
+            }
+            if (useMinification)
+            {
+                if (type == BundleType.CSS) response = minifier.MinifyStyleSheet(response);
+                else response = minifier.MinifyJavaScript(response);
+            }
+            if (!String.IsNullOrEmpty(localUrl))
+            {
+                try
+                {
+                    response.SaveToFile(getLocalFilePath());
+                }
+                catch (Exception ex) { }
+            }
+            return response;
+        }
+
+        private string loadFromLocal()
+        {
+            loadType = "LOCAL";
+            string fileContents = System.IO.File.ReadAllText(getLocalFilePath());
+            return fileContents;
+        }
+
         public string Load()
         {
             StringBuilder sb = new StringBuilder();
-            var minifier = new Microsoft.Ajax.Utilities.Minifier();
-            if (!String.IsNullOrEmpty(localUrl) && System.IO.File.Exists(localUrl)) //check that the file exists in file system
+            sb.AppendLine();
+            sb.AppendLine(@"/**** " + (this.cdnUrl ?? this.localUrl) + " ****/");
+            if (!String.IsNullOrEmpty(cdnUrl) && !cacheRecords.ContainsKey(cdnUrl))
             {
-                var file = new System.IO.FileInfo(getLocalFilePath());
-                if (DateTime.Now.Subtract(file.LastWriteTime).TotalHours <= 24) //check that the local file's last modification time was at most 24 hours ago
+                if (!String.IsNullOrEmpty(localUrl) && System.IO.File.Exists(getLocalFilePath()))
                 {
-                    sb.Append(System.IO.File.ReadAllText(getLocalFilePath()));
-                    sb.AppendLine();
-                    return sb.ToString();
-                }
-            }
-            if (!String.IsNullOrEmpty(cdnUrl) && (!cacheRecords.ContainsKey(cdnUrl) || DateTime.Now.Subtract(cacheRecords[cdnUrl]).TotalHours > 24))
-            {
-                string response = "";
-                try
-                {
-                    if (cdnUrl.StartsWith("~/")) cdnUrl = cdnUrl.Replace("~/", GetLeftUrl());
-                    response = Api.Get(cdnUrl);
-                    if (!cacheRecords.ContainsKey(cdnUrl) && !String.IsNullOrEmpty(response)) cacheRecords.AddSafe(cdnUrl, DateTime.Now);
-                    else if (String.IsNullOrEmpty(response) && System.IO.File.Exists(getLocalFilePath())) response = System.IO.File.ReadAllText(getLocalFilePath());
-                }
-                catch (Exception ex)
-                {
-                    if (!String.IsNullOrEmpty(localUrl)) response = System.IO.File.ReadAllText(getLocalFilePath());
-                    else throw ex;
-                }
-                if (useMinification)
-                {
-                    if (type == BundleType.CSS) response = minifier.MinifyStyleSheet(response);
-                    else response = minifier.MinifyJavaScript(response);
-                }
-                if (!String.IsNullOrEmpty(localUrl))
-                {
-                    try
+                    var file = new System.IO.FileInfo(getLocalFilePath());
+                    if (DateTime.Now.Subtract(file.LastWriteTime).TotalHours <= 24)
                     {
-                        response.SaveToFile(getLocalFilePath());
+                        sb.AppendLine(loadFromLocal());
+                        sb.AppendLine();
                     }
-                    catch (Exception ex) { }
+                    else
+                    {
+                        sb.AppendLine(loadFromCdn());
+                        sb.AppendLine();
+                    }
                 }
-                sb.Append(response);
-                sb.AppendLine();
+                else
+                {
+                    sb.AppendLine(loadFromCdn());
+                    sb.AppendLine();
+                }
             }
             else
             {
-                if (System.IO.File.Exists(getLocalFilePath()))
+                if (!String.IsNullOrEmpty(localUrl) && System.IO.File.Exists(getLocalFilePath())) //check that the file exists in file system
                 {
-                    sb.Append(System.IO.File.ReadAllText(getLocalFilePath()));
+                    sb.AppendLine(loadFromLocal());
                     sb.AppendLine();
                 }
             }

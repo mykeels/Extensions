@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="ApiMethods.cs" />
     <Compile Include="Bundle.cs" />
+    <Compile Include="BundleListExtensions.cs" />
     <Compile Include="ObjectExtensions.cs" />
     <Compile Include="Promise.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
