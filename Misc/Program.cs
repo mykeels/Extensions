@@ -15,13 +15,16 @@ namespace Misc
     {
         public static void Main(String[] args)
         {
-            List<int> x = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+            /*List<int> x = new List<int>() { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
             Console.WriteLine(x.Paginate(5).ToJson(true));
             Console.Read();
             Console.WriteLine("<listId>150018</listId>".Between("<listId>", "</listId>"));
             Console.Read();
             Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
-            List<int> bestSol = Knapsack.SolveABC(k);
+            List<int> bestSol = Knapsack.SolveABC(k);*/
+            
+            Tsp tsp = new Tsp(Tsp.GetRandomProblem());
+            Console.WriteLine(tsp.Solve());
             Console.Read();
             //Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
             //byte[] food = EightQueens.GetCorrectSolutionSA();

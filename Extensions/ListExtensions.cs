@@ -80,8 +80,21 @@ namespace Extensions
             {
                 double rr = r.NextDouble() * l.Count();
                 int index = Convert.ToInt32(Math.Floor(Convert.ToDouble(rr)));
-                ret.Push(l.ElementAt(index));
+                ret.Add(l.ElementAt(index));
                 l = l.Except(ret);
+            }
+            return ret;
+        }
+
+        public static List<T> Shuffle<T>(this List<T> arr)
+        {
+            List<T> ret = new List<T>();
+            var count = arr.Count();
+            for (int i = 0; i < count; i++)
+            {
+                T x = arr.Random();
+                ret.Add(x);
+                arr.Remove(x);
             }
             return ret;
         }
