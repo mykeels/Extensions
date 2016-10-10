@@ -141,12 +141,19 @@ namespace Extensions.Heuristics.Meta.Abc
             }
             if (Config.WriteToConsole && _iterationCount % Config.ConsoleWriteInterval == 0)
             {
-                Console.Write(_iterationCount + "\t" + _bestFitness + "");
-                Console.Write("\t" + _bestFood.ToJson() + "\t");
-                Console.Write("E-Bees: " + _employedCount + '\t');
-                Console.Write("On-Bees: " + Convert.ToInt32(Bees.Count - _employedCount) + '\t');
-                if ((Config.HardObjectiveFunction != null)) Console.Write("Hard: " + Config.HardObjectiveFunction.Invoke(_bestFood));
-                Console.WriteLine();
+                if (Config.ConsoleWriteFunction == null)
+                {
+                    Console.Write(_iterationCount + "\t" + _bestFitness + "");
+                    Console.Write("\t" + _bestFood.ToJson() + "\t");
+                    Console.Write("E-Bees: " + _employedCount + '\t');
+                    Console.Write("On-Bees: " + Convert.ToInt32(Bees.Count - _employedCount) + '\t');
+                    if ((Config.HardObjectiveFunction != null)) Console.Write("Hard: " + Config.HardObjectiveFunction.Invoke(_bestFood));
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Config.ConsoleWriteFunction(_bestFood, _bestFitness, _iterationCount);
+                }
             }
             return ret;
         }
