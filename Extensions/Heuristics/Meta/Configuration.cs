@@ -14,6 +14,7 @@ namespace Extensions.Heuristics.Meta
         public Func<IEnumerable<SolutionType>, IEnumerable<double>, int, IEnumerable<SolutionType>> SelectionFunction { get; set; }
         public Func<SolutionType> InitializeSolutionFunction { get; set; }
         public Func<SolutionType, bool> HardObjectiveFunction { get; set; }
+        public Action<SolutionType, double, int> ConsoleWriteFunction { get; set; }
         public bool EnforceHardObjective { get; set; }
         public bool WriteToConsole { get; set; }
         public int ConsoleWriteInterval { get; set; }
