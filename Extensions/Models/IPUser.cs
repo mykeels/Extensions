@@ -45,16 +45,36 @@ namespace Extensions.Models
             }
             catch (Exception ex) { }
             EnsureUserLocation(ipaddress, ref userlocation);
-            if (Site.Context().Session["ip_user"] == null)
-            {
-                var location = Api.Get<IpApiLocation>("https://ipapi.co/" + ipaddress + "/json/");
-                Site.Context().Session.Add("ip_user", location);
-                Site.Context().Session.AddSafe("ip_user_set", false);
-            }
             if (Site.Context() != null && Site.Context().Session != null)
             {
                 Site.Context().Session.AddSafe("site-default-country", Site.GetSiteCountryCode());
                 Site.Context().Session.AddSafe("site-default-currency", Currency.GetSiteCurrencyCode());
+            }
+            if (Site.Context().Session["ip_user"] == null)
+            {
+                try
+                {
+                    var location = Api.Get<IpApiLocation>("https://ipapi.co/" + ipaddress + "/json/");
+                    Site.Context().Session.Add("ip_user", location);
+                    Site.Context().Session.AddSafe("ip_user_set", false);
+                    return location;
+                }
+                catch
+                {
+                    userlocation = new
+                    {
+                        ip = "::1",
+                        hostname = false,
+                        city = "",
+                        region = "",
+                        country = "US",
+                        loc = "",
+                        org = "",
+                        postal = new { },
+                        phone = "",
+                        stateprov = ""
+                    };
+                }
             }
             return userlocation;
         }
