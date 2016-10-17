@@ -45,6 +45,12 @@ namespace Extensions.Models
             }
             catch (Exception ex) { }
             EnsureUserLocation(ipaddress, ref userlocation);
+            if (Site.Context().Session["ip_user"] == null)
+            {
+                var location = Api.Get<IpApiLocation>("https://ipapi.co/" + ipaddress + "/json/");
+                Site.Context().Session.Add("ip_user", location);
+                Site.Context().Session.AddSafe("ip_user_set", false);
+            }
             if (Site.Context() != null && Site.Context().Session != null)
             {
                 Site.Context().Session.AddSafe("site-default-country", Site.GetSiteCountryCode());
@@ -111,7 +117,7 @@ namespace Extensions.Models
                 {
                     AddUserToSession(ipaddress, ref userlocation);
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -127,7 +133,7 @@ namespace Extensions.Models
                 {
                     Site.Context().Session.Add("ip_user", user);
                     Site.Context().Session.AddSafe("ip_user_set", false);
-                }   
+                }
                 //Site.LogError(ex);
             }
         }
@@ -184,6 +190,18 @@ namespace Extensions.Models
                 //Site.LogError(ex);
             }
 
+        }
+
+        public class IpApiLocation
+        {
+            public string ip { get; set; }
+            public string city { get; set; }
+            public string region { get; set; }
+            public string country { get; set; }
+            public string postal { get; set; }
+            public string timezone { get; set; }
+            public string latitude { get; set; }
+            public string longitude { get; set; }
         }
     }
 }

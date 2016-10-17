@@ -39,8 +39,9 @@
     <Reference Include="Elmah">
       <HintPath>..\..\..\..\..\..\..\Wakanow\ThingsToDO\ThingsToDoMVC\bin\Elmah.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\..\..\WebSites\Wakanow Mobile Site (Origo)\bin\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Uber SDK\uber-sdk-for-net\src\UberSDKForNet\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="SendGrid, Version=6.3.4.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
