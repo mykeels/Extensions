@@ -16,6 +16,7 @@ namespace Extensions.Models
         public string cityname { get; set; }
         public string stateprovince { get; set; }
         public string ipaddress { get; set; }
+        public string ip { get; set; }
 
         public IPUser()
         {
