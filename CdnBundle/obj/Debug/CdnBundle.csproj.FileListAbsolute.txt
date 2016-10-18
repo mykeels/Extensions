@@ -1,9 +1,0 @@
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\CdnBundle.dll
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\CdnBundle.pdb
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\AjaxMin.dll
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\Newtonsoft.Json.dll
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\AjaxMin.pdb
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\bin\Debug\Newtonsoft.Json.xml
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\obj\Debug\CdnBundle.csprojResolveAssemblyReference.cache
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\obj\Debug\CdnBundle.dll
-C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Extensions\CdnBundle\obj\Debug\CdnBundle.pdb
