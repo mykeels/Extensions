@@ -40,8 +40,8 @@
       <HintPath>..\..\..\..\..\..\..\Wakanow\ThingsToDO\ThingsToDoMVC\bin\Elmah.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Uber SDK\uber-sdk-for-net\src\UberSDKForNet\bin\Debug\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="SendGrid, Version=6.3.4.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -128,12 +128,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="Heuristics\Meta\Abc\Readme.md" />
     <None Include="Heuristics\Meta\GA\GeneticAlgorithm.md" />
     <None Include="Heuristics\Meta\GA\Readme.md" />
     <None Include="Heuristics\Meta\Problems\Readme.md" />
     <None Include="Heuristics\Meta\Configuration.md" />
     <None Include="Heuristics\Meta\Readme.md" />
+    <None Include="packages.config" />
     <None Include="Resources\cities.json" />
     <None Include="Resources\continents" />
     <None Include="Resources\countries.json" />
