@@ -16,6 +16,7 @@ namespace Extensions.Models
         public string cityname { get; set; }
         public string stateprovince { get; set; }
         public string ipaddress { get; set; }
+        public string ip { get; set; }
 
         public IPUser()
         {
@@ -59,7 +60,7 @@ namespace Extensions.Models
                     Site.Context().Session.AddSafe("ip_user_set", false);
                     return location;
                 }
-                catch
+                catch (Exception ex)
                 {
                     userlocation = new
                     {
