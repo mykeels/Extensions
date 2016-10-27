@@ -22,9 +22,21 @@ namespace Misc
             Console.Read();
             Knapsack k = Knapsack.ReadProblemTypeTwo(@"C:\Users\michaeli\Documents\Visual Studio 2015\Projects\Knapsack\Knapsack\bin\Debug\knapsack.txt");
             List<int> bestSol = Knapsack.SolveABC(k);*/
-            
-            Tsp tsp = new Tsp(Tsp.GetRandomProblem());
-            Console.WriteLine(tsp.Solve());
+
+            //Tsp tsp = new Tsp(Tsp.GetRandomProblem());
+            //Console.WriteLine(tsp.Solve());
+
+            var loc = new Extensions.Models.IP2Loc("41.73.227.234");
+            Console.WriteLine(loc.GetIpAddress());
+            Console.WriteLine("IpGeni:");
+            Console.WriteLine(loc.GetLocationIpGeni().ToJson(true));
+            Console.WriteLine("DB-IP:");
+            Console.WriteLine(loc.GetLocationDpIp().ToJson(true));
+            Console.WriteLine("IP-Api:");
+            Console.WriteLine(loc.GetLocationIpApi().ToJson(true));
+            Console.WriteLine("All Sources:");
+            Console.WriteLine(loc.GetLocationAll().ToJson(true));
+
             Console.Read();
             //Console.WriteLine("DKTBXS5sj86VoDP8Pz27eg==".Decrypt());
             //byte[] food = EightQueens.GetCorrectSolutionSA();

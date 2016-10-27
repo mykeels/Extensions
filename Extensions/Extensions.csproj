@@ -101,6 +101,7 @@
     <Compile Include="Models\Currency-Manager.cs" />
     <Compile Include="Models\Currency.cs" />
     <Compile Include="IO\File.cs" />
+    <Compile Include="Models\IP2Loc.cs" />
     <Compile Include="Models\IPUser.cs" />
     <Compile Include="Models\KeyValue.cs" />
     <Compile Include="Models\Location.cs" />
