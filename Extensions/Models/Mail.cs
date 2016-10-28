@@ -13,11 +13,12 @@ namespace Extensions.Models
 {
     public class Mail
     {
-        public static bool Send(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null)
+        public static bool Send(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", 
+            List<string> CCs = null, List<string> replyToList = null, Dictionary<string, Stream> attachments = null)
         {
             if (!String.IsNullOrEmpty(Site.AppSettings("MailCloudApiKey")))
             {
-                SendViaCloud(EmailTo, Subject, Body, fromaddress, displayname, CCs).Wait();
+                SendViaCloud(EmailTo, Subject, Body, fromaddress, displayname, CCs, replyToList, attachments).Wait();
                 return true;
             }
             MailAddress fromAddress = null;
@@ -32,6 +33,10 @@ namespace Extensions.Models
                     usrMail.Subject = Subject;
                     usrMail.IsBodyHtml = true;
                     usrMail.To.Add(EmailTo);
+                    if (replyToList != null)
+                    {
+                        replyToList.ForEach((address) => usrMail.ReplyToList.Add(new MailAddress(address)));
+                    }
                     if (CCs != null)
                     {
                         CCs.ForEach((cc) =>
@@ -39,13 +44,30 @@ namespace Extensions.Models
                             usrMail.CC.Add(cc);
                         });
                     }
+                    if (attachments != null)
+                    {
+                        foreach (string key in attachments.Keys)
+                        {
+                            usrMail.Attachments.Add(new Attachment(attachments[key], key));
+                        }
+                    }
                     smtp.Send(usrMail);
                     return true;
                 }
             }
         }
 
-        public static Task SendViaCloud(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null, Dictionary<string, Stream> attachments = null)
+        public static bool Send(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow",
+            List<string> CCs = null, List<string> replyToList = null, Dictionary<string, byte[]> attachments = null)
+        {
+            return Send(EmailTo, Subject, Body, fromaddress, displayname, CCs, replyToList, attachments.ToList().Select((att) =>
+            {
+                return new KeyValuePair<string, Stream>(att.Key, att.Value.ToStream());
+            }).ToList().ToDictionary((att) => att.Key, (att) => att.Value));
+        }
+
+        public static Task SendViaCloud(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", 
+            List<string> CCs = null, List<string> replyToList = null, Dictionary <string, Stream> attachments = null)
         {
             MailAddress fromAddress = null;
             if (String.IsNullOrEmpty(fromaddress)) fromAddress = new MailAddress(Site.AppSettings("EmailFromAddress"), displayname);
@@ -55,6 +77,12 @@ namespace Extensions.Models
             usrMail.Html = Body;
             usrMail.Subject = Subject;
             usrMail.AddTo(EmailTo);
+            if (replyToList != null)
+            {
+                var replyToMailList = new MailAddressCollection();
+                replyToList.ForEach((address) => replyToMailList.Add(new MailAddress(address)));
+                usrMail.ReplyTo = replyToMailList.ToArray();
+            }
             if (CCs != null)
             {
                 CCs.ForEach((cc) =>
@@ -73,12 +101,13 @@ namespace Extensions.Models
             return transportWeb.DeliverAsync(usrMail);
         }
 
-        public static Promise<bool> SendAsync(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", List<string> CCs = null)
+        public static Promise<bool> SendAsync(string EmailTo, string Subject, string Body, string fromaddress = null, string displayname = "Wakanow", 
+            List<string> CCs = null, List<string> replyToList = null, Dictionary<string, Stream> attachments = null)
         {
             Site.GetLeftUrl(); //Just in case it is neccessary to use HttpContext.Current.Server.MapPath
             return new Promise<bool>(() =>
             {
-                return Send(EmailTo, Subject, Body, fromaddress, displayname, CCs);
+                return Send(EmailTo, Subject, Body, fromaddress, displayname, CCs, replyToList, attachments);
             });
         }
 

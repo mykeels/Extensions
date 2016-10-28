@@ -221,8 +221,8 @@ namespace Extensions.Models
             public string postal { get; set; }
             public string timezone { get; set; }
             public string phone { get; set; }
-            public long latitude { get; set; }
-            public long longitude { get; set; }
+            public double latitude { get; set; }
+            public double longitude { get; set; }
 
             public Location addToSession()
             {
